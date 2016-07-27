@@ -27,9 +27,9 @@
     </developers>
 
     <!--<scm>
-       <connection>scm:git:git@git.oschina.net:cancerGit/app-tools.git</connection>
-       <developerConnection>scm:git:git@git.oschina.net:cancerGit/app-tools.git</developerConnection>
-       <url>git@git.oschina.net:cancerGit/app-tools.git</url>
+       <connection>scm:git:git@git.oschina.net:cancerGit/app-persist.git</connection>
+       <developerConnection>scm:git:git@git.oschina.net:cancerGit/app-persist.git</developerConnection>
+       <url>git@git.oschina.net:cancerGit/app-persist.git</url>
    </scm>-->
 
     <properties>
