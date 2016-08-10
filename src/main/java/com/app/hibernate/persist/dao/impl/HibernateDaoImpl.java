@@ -1,7 +1,10 @@
-package com.app.master.persist.dao.impl;
+package com.app.hibernate.persist.dao.impl;
 
-import com.app.common.SqlUtil;
-import com.app.master.persist.dao.HibernateDao;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,10 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.app.hibernate.persist.dao.HibernateDao;
+import com.app.hibernate.persist.utils.SqlUtil;
 
 @SuppressWarnings("unchecked")
 @Repository

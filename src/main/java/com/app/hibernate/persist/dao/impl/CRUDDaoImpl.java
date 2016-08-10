@@ -1,8 +1,10 @@
-package com.app.master.persist.dao.impl;
+package com.app.hibernate.persist.dao.impl;
 
-import com.app.common.Common;
-import com.app.common.SqlUtil;
-import com.app.master.persist.dao.CRUDDao;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -12,10 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.app.hibernate.persist.dao.CRUDDao;
+import com.app.hibernate.persist.utils.SqlUtil;
 
 @Repository("crudDao")
 public class CRUDDaoImpl implements CRUDDao {
@@ -140,7 +140,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 			list = query.list();
 		} catch (Exception e) {
-			logger.error(Common.getThreadMethod(), e);
+			logger.error("queryListWithSql", e);
 		}
 		return list;
 	}
@@ -155,7 +155,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
 			resultMap = (Map) query.uniqueResult();
 		} catch (Exception e) {
-			logger.error(Common.getThreadMethod(), e);
+			logger.error("queryMapWithSql", e);
 		}
 		return resultMap;
 	}
@@ -182,7 +182,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			}
 			list = q.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
 		} catch (Exception e) {
-			logger.error(Common.getThreadMethod(), e);
+			logger.error("queryListWithSql", e);
 		}
 		return list;
 	}
@@ -209,7 +209,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			}
 			list = query.list();
 		} catch (Exception e) {
-			logger.error(Common.getThreadMethod(), e);
+			logger.error("queryListWithSql", e);
 		}
 		return list;
 	}
@@ -236,7 +236,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			}
 			resultMap = (Map) query.uniqueResult();
 		} catch (Exception e) {
-			logger.error(Common.getThreadMethod(), e);
+			logger.error("queryMapWithSql", e);
 		}
 		return resultMap;
 	}
@@ -272,7 +272,7 @@ public class CRUDDaoImpl implements CRUDDao {
 				Query query = getSqlQuery(sql);
 				resultCount = query.executeUpdate();
 			} catch (Exception e) {
-				logger.error(Common.getThreadMethod(), e);
+				logger.error("executeSqlUpdate", e);
 			}
 		}
 		return resultCount;
@@ -300,7 +300,7 @@ public class CRUDDaoImpl implements CRUDDao {
 				}
 				resultCount = query.executeUpdate();
 			} catch (Exception e) {
-				logger.error(Common.getThreadMethod(), e);
+				logger.error("executeSqlUpdate", e);
 			}
 		}
 		return resultCount;
@@ -319,7 +319,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			}
 			list = query.list();
 		} catch (Exception e) {
-			logger.error(Common.getThreadMethod(), e);
+			logger.error("queryListWithSql", e);
 		}
 		return list;
 	}
@@ -337,7 +337,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			}
 			resultMap = (Map) query.uniqueResult();
 		} catch (Exception e) {
-			logger.error(Common.getThreadMethod(), e);
+			logger.error("queryMapWithSql", e);
 		}
 		return resultMap;
 	}
@@ -355,7 +355,7 @@ public class CRUDDaoImpl implements CRUDDao {
 				}
 				resultCount = query.executeUpdate();
 			} catch (Exception e) {
-				logger.error(Common.getThreadMethod(), e);
+				logger.error("executeSqlUpdate", e);
 			}
 		}
 		return resultCount;
@@ -473,7 +473,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			q.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 			list = q.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
 		} catch (Exception e) {
-			logger.error(Common.getThreadMethod(), e);
+			logger.error("queryListWithSql", e);
 		}
 		return list;
 	}

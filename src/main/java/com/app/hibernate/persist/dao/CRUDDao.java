@@ -1,4 +1,4 @@
-package com.app.master.persist.dao;
+package com.app.hibernate.persist.dao;
 
 import java.util.List;
 import java.util.Map;

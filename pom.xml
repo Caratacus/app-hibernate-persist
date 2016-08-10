@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.app.hibernate</groupId>
     <artifactId>app-persist</artifactId>
-    <version>1.2.1.Final</version>
+    <version>1.3.0.Final</version>
     <packaging>jar</packaging>
 
     <name>app-persist</name>
@@ -37,7 +37,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.7</java.version>
         <!-- dependency -->
-        <app-tools.version>1.0.1</app-tools.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <springframework.version>4.3.1.RELEASE</springframework.version>
         <hibernate.validator.version>5.0.3.Final</hibernate.validator.version>
         <hibernate.jpa.version>1.0.1.Final</hibernate.jpa.version>
         <hibernate.core.version>4.2.2.Final</hibernate.core.version>
@@ -49,11 +50,28 @@
     </properties>
 
     <dependencies>
-        <!--app-tool-->
+        <!--spring-->
         <dependency>
-            <groupId>com.app.common</groupId>
-            <artifactId>app-tools</artifactId>
-            <version>${app-tools.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+        <!--slf4j-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
         <!--hibernate-->
         <dependency>
