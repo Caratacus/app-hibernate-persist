@@ -246,7 +246,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	 *
 	 * @param sql
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 */
 	private Query getSqlQuery(String sql) {
 		return this.getCurrentSession().createSQLQuery(sql);
@@ -257,7 +257,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	 *
 	 * @param hql
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 */
 	private Query getHqlQuery(String hql) {
 		return this.getCurrentSession().createQuery(hql);

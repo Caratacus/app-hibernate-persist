@@ -104,7 +104,7 @@ public interface HibernateDao<T> {
 	 * @param list
 	 * @return
 	 * @throws
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/5/24 0024
 	 * @version 1.0
 	 */
@@ -116,7 +116,7 @@ public interface HibernateDao<T> {
 	 * @param list
 	 * @return
 	 * @throws
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/5/24 0024
 	 * @version 1.0
 	 */
@@ -128,7 +128,7 @@ public interface HibernateDao<T> {
 	 * @param clazz
 	 * @return
 	 * @throws
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/5/25 0025
 	 * @version 1.0
 	 */
@@ -142,7 +142,7 @@ public interface HibernateDao<T> {
 	 * @param rows
 	 * @return
 	 * @throws
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/5/25 0025
 	 * @version 1.0
 	 */
@@ -156,7 +156,7 @@ public interface HibernateDao<T> {
 	 * @param value
 	 * @return
 	 * @throws
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/5/25 0025
 	 * @version 1.0
 	 */
@@ -170,7 +170,7 @@ public interface HibernateDao<T> {
 	 * @param value
 	 * @return
 	 * @throws
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/5/25 0025
 	 * @version 1.0
 	 */
@@ -183,7 +183,7 @@ public interface HibernateDao<T> {
 	 * @param map
 	 * @return
 	 * @throws
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/5/25 0025
 	 * @version 1.0
 	 */
@@ -199,7 +199,7 @@ public interface HibernateDao<T> {
 	 * @param value
 	 * @return
 	 * @throws
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/5/25 0025
 	 * @version 1.0
 	 */
@@ -215,7 +215,7 @@ public interface HibernateDao<T> {
 	 * @param value
 	 * @return
 	 * @throws
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/5/25 0025
 	 * @version 1.0
 	 */
@@ -230,7 +230,7 @@ public interface HibernateDao<T> {
 	 * @param map
 	 * @return
 	 * @throws
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/5/25 0025
 	 * @version 1.0
 	 */

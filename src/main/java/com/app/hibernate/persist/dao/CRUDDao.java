@@ -10,7 +10,7 @@ public interface CRUDDao {
 	 * 根据hql获取数量
 	 * 
 	 * @param hql
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -25,7 +25,7 @@ public interface CRUDDao {
 	 * 
 	 * @param hql
 	 * @param params
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -39,7 +39,7 @@ public interface CRUDDao {
 	 * 执行insert、update hql语句
 	 * 
 	 * @param hql
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -54,7 +54,7 @@ public interface CRUDDao {
 	 * 
 	 * @param hql
 	 * @param params
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -68,7 +68,7 @@ public interface CRUDDao {
 	 * 执行insert、update sql语句
 	 * 
 	 * @param sql
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -83,7 +83,7 @@ public interface CRUDDao {
 	 * 
 	 * @param sql
 	 * @param params
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -97,7 +97,7 @@ public interface CRUDDao {
 	 * 根据sql获取数量
 	 * 
 	 * @param sql
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -112,7 +112,7 @@ public interface CRUDDao {
 	 * 
 	 * @param sql
 	 * @param params
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -126,7 +126,7 @@ public interface CRUDDao {
 	 *
 	 * @param sql
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2015年12月1日 上午9:59:26
 	 * @version 1.0
 	 */
@@ -137,7 +137,7 @@ public interface CRUDDao {
 	 *
 	 * @param sql
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2015年12月1日 上午9:59:53
 	 * @version 1.0
 	 */
@@ -149,7 +149,7 @@ public interface CRUDDao {
 	 * @param sql
 	 * @param args
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2015年12月1日 上午9:59:56
 	 * @version 1.0
 	 */
@@ -161,7 +161,7 @@ public interface CRUDDao {
 	 * @param sql
 	 * @param args
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2015年12月1日 上午9:59:56
 	 * @version 1.0
 	 */
@@ -173,7 +173,7 @@ public interface CRUDDao {
 	 * @param sql
 	 * @param args
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2015年12月1日 上午10:00:00
 	 * @version 1.0
 	 */
@@ -184,7 +184,7 @@ public interface CRUDDao {
 	 *
 	 * @param sql
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2015年12月1日 下午5:10:26
 	 * @version 1.0
 	 */
@@ -196,7 +196,7 @@ public interface CRUDDao {
 	 * @param sql
 	 * @param args
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2015年12月1日 下午5:10:41
 	 * @version 1.0
 	 */
@@ -208,7 +208,7 @@ public interface CRUDDao {
 	 * @param sql
 	 * @param args
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2015年12月1日 上午9:59:56
 	 * @version 1.0
 	 */
@@ -220,7 +220,7 @@ public interface CRUDDao {
 	 * @param sql
 	 * @param args
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2015年12月1日 上午10:00:00
 	 * @version 1.0
 	 */
@@ -232,7 +232,7 @@ public interface CRUDDao {
 	 * @param sql
 	 * @param args
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2015年12月1日 下午5:10:41
 	 * @version 1.0
 	 */
@@ -243,7 +243,7 @@ public interface CRUDDao {
 	 * 根据class生成Hql 执行
 	 * 
 	 * @param clazz
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -259,7 +259,7 @@ public interface CRUDDao {
 	 * @param clazz
 	 * @param property
 	 * @param value
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -275,7 +275,7 @@ public interface CRUDDao {
 	 * @param clazz
 	 * @param property
 	 * @param value
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -289,7 +289,7 @@ public interface CRUDDao {
 	 * 根据Hql语句查询
 	 * 
 	 * @param hql
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -305,7 +305,7 @@ public interface CRUDDao {
 	 * @param clazz
 	 * @param property
 	 * @param value
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -320,7 +320,7 @@ public interface CRUDDao {
 	 * 
 	 * @param clazz
 	 * @param map
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -334,7 +334,7 @@ public interface CRUDDao {
 	 * 根据class生成count语句执行
 	 * 
 	 * @param clazz
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -350,7 +350,7 @@ public interface CRUDDao {
 	 * @param clazz
 	 * @param property
 	 * @param value
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -366,7 +366,7 @@ public interface CRUDDao {
 	 * @param clazz
 	 * @param property
 	 * @param value
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -381,7 +381,7 @@ public interface CRUDDao {
 	 * 
 	 * @param clazz
 	 * @param map
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2016/4/29 0029
 	 * @return
 	 * @throws
@@ -394,7 +394,7 @@ public interface CRUDDao {
 	 *
 	 * @param sql
 	 * @return
-	 * @author Cancer
+	 * @author Caratacus
 	 * @date 2015年12月1日 上午9:59:26
 	 * @version 1.0
 	 */
