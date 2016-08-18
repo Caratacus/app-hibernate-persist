@@ -387,7 +387,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	@Override
 	public List<Map> queryListWithHql(String hql) {
 		Query query = getHqlQuery(hql);
-		return (List<Map>)query.list();
+		return (List<Map>) query.list();
 	}
 
 	@Override
@@ -415,53 +415,6 @@ public class CRUDDaoImpl implements CRUDDao {
 		Object[] value = new Object[values.size()];
 		values.toArray(value);
 		return queryListWithHql(clazz, condition, value);
-	}
-
-	@Override
-	public long queryCountWithHql(Class clazz) {
-		String countHql = SqlUtil.getCountHql(clazz);
-		Query query = getHqlQuery(countHql);
-		Long count = (long) query.uniqueResult();
-		return count;
-	}
-
-	@Override
-	public long queryCountWithHql(Class clazz, String property, Object... value) {
-		String countHql = SqlUtil.getCountHql(clazz, property);
-		Query query = getHqlQuery(countHql);
-		for (int i = 0; i < value.length; i++) {
-			query.setParameter(i, value[i]);
-		}
-		Long count = (Long) query.uniqueResult();
-		return count;
-	}
-
-	@Override
-	public long queryCountWithHql(Class clazz, String[] property, Object... value) {
-		String countHql = SqlUtil.getCountHql(clazz, property);
-		Query query = getHqlQuery(countHql);
-		for (int i = 0; i < value.length; i++) {
-			query.setParameter(i, value[i]);
-		}
-		long count = (long) query.uniqueResult();
-		return count;
-	}
-
-	@Override
-	public long queryCountWithHql(Class clazz, Map<String, Object> map) {
-		List<String> keys = new ArrayList<String>();
-		List<Object> values = new ArrayList<Object>();
-
-		for (String key : map.keySet()) {
-			keys.add(key);
-			values.add(map.get(key));
-		}
-
-		String[] condition = new String[keys.size()];
-		keys.toArray(condition);
-		Object[] value = new Object[values.size()];
-		values.toArray(value);
-		return queryCountWithHql(clazz, condition, value);
 	}
 
 	@Override

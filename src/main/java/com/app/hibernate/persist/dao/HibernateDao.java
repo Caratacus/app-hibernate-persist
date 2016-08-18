@@ -1,8 +1,13 @@
 package com.app.hibernate.persist.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.hibernate.Query;
+
+import com.app.hibernate.persist.utils.SqlUtil;
 
 public interface HibernateDao<T> {
 	/**
@@ -235,5 +240,181 @@ public interface HibernateDao<T> {
 	 * @version 1.0
 	 */
 	public List<T> query(Class<T> clazz, int page, int rows, Map<String, Object> map);
+
+	/**
+	 *
+	 * 根据class生成count语句执行
+	 *
+	 * @param clazz
+	 * @author Caratacus
+	 * @date 2016/4/29 0029
+	 * @return
+	 * @throws
+	 * @version 1.0
+	 *
+	 */
+	public long count(Class clazz);
+
+	/**
+	 *
+	 * 根据class生成count语句执行
+	 *
+	 * @param clazz
+	 * @param property
+	 * @param value
+	 * @author Caratacus
+	 * @date 2016/4/29 0029
+	 * @return
+	 * @throws
+	 * @version 1.0
+	 *
+	 */
+	public long count(Class clazz, String property, Object... value);
+
+	/**
+	 *
+	 * 根据class生成count语句执行
+	 *
+	 * @param clazz
+	 * @param property
+	 * @param value
+	 * @author Caratacus
+	 * @date 2016/4/29 0029
+	 * @return
+	 * @throws
+	 * @version 1.0
+	 *
+	 */
+	public long count(Class clazz, String[] property, Object... value);
+
+	/**
+	 *
+	 * 根据class生成count语句执行
+	 *
+	 * @param clazz
+	 * @param map
+	 * @author Caratacus
+	 * @date 2016/4/29 0029
+	 * @return
+	 * @throws
+	 * @version 1.0
+	 *
+	 */
+	public long count(Class clazz, Map<String, Object> map);
+
+	/**
+	 * 查询结果集排序
+	 *
+	 * @param clazz
+	 * @param order
+	 * @return
+	 * @throws
+	 * @author Caratacus
+	 * @date 2016/5/25 0025
+	 * @version 1.0
+	 */
+	public List<T> query(Class<T> clazz, String order);
+
+	/**
+	 * 查询结果集排序
+	 *
+	 * @param clazz
+	 * @param page
+	 * @param rows
+	 * @return
+	 * @throws
+	 * @author Caratacus
+	 * @date 2016/5/25 0025
+	 * @version 1.0
+	 */
+	public List<T> query(Class<T> clazz, String order, int page, int rows);
+
+	/**
+	 * 查询结果集排序
+	 *
+	 * @param clazz
+	 * @param property
+	 * @param value
+	 * @return
+	 * @throws
+	 * @author Caratacus
+	 * @date 2016/5/25 0025
+	 * @version 1.0
+	 */
+	public List<T> query(Class<T> clazz, String order, String property, Object value);
+
+	/**
+	 * 查询结果集排序
+	 *
+	 * @param clazz
+	 * @param property
+	 * @param value
+	 * @return
+	 * @throws
+	 * @author Caratacus
+	 * @date 2016/5/25 0025
+	 * @version 1.0
+	 */
+	public List<T> query(Class<T> clazz, String order, String[] property, Object... value);
+
+	/**
+	 * 查询结果集排序
+	 *
+	 * @param clazz
+	 * @param map
+	 * @return
+	 * @throws
+	 * @author Caratacus
+	 * @date 2016/5/25 0025
+	 * @version 1.0
+	 */
+	public List<T> query(Class<T> clazz, Map<String, Object> map, String order);
+
+	/**
+	 * 查询结果集排序
+	 *
+	 * @param clazz
+	 * @param page
+	 * @param rows
+	 * @param property
+	 * @param value
+	 * @return
+	 * @throws
+	 * @author Caratacus
+	 * @date 2016/5/25 0025
+	 * @version 1.0
+	 */
+	public List<T> query(Class<T> clazz, int page, int rows, String order, String property, Object value);
+
+	/**
+	 * 查询结果集排序
+	 *
+	 * @param clazz
+	 * @param page
+	 * @param rows
+	 * @param property
+	 * @param value
+	 * @return
+	 * @throws
+	 * @author Caratacus
+	 * @date 2016/5/25 0025
+	 * @version 1.0
+	 */
+	public List<T> query(Class<T> clazz, int page, int rows, String order, String[] property, Object... value);
+
+	/**
+	 * 查询结果集排序
+	 *
+	 * @param clazz
+	 * @param page
+	 * @param rows
+	 * @param map
+	 * @return
+	 * @throws
+	 * @author Caratacus
+	 * @date 2016/5/25 0025
+	 * @version 1.0
+	 */
+	public List<T> query(Class<T> clazz, int page, int rows, Map<String, Object> map, String order);
 
 }

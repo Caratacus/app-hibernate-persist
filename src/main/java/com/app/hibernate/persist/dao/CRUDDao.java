@@ -330,66 +330,6 @@ public interface CRUDDao {
 	public List queryListWithHql(Class clazz, Map<String, Object> map);
 
 	/**
-	 *
-	 * 根据class生成count语句执行
-	 * 
-	 * @param clazz
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
-	 *
-	 */
-	public long queryCountWithHql(Class clazz);
-
-	/**
-	 *
-	 * 根据class生成count语句执行
-	 * 
-	 * @param clazz
-	 * @param property
-	 * @param value
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
-	 *
-	 */
-	public long queryCountWithHql(Class clazz, String property, Object... value);
-
-	/**
-	 *
-	 * 根据class生成count语句执行
-	 * 
-	 * @param clazz
-	 * @param property
-	 * @param value
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
-	 *
-	 */
-	public long queryCountWithHql(Class clazz, String[] property, Object... value);
-
-	/**
-	 *
-	 * 根据class生成count语句执行
-	 * 
-	 * @param clazz
-	 * @param map
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
-	 *
-	 */
-	public long queryCountWithHql(Class clazz, Map<String, Object> map);
-	/**
 	 * 执行sql语句返回list<map>结构 (分页)
 	 *
 	 * @param sql

@@ -261,4 +261,138 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 		return query(clazz, page, rows, condition, value);
 	}
 
+	@Override
+	public List<T> query(Class<T> clazz, String order) {
+		String hql = SqlUtil.getListHql(order, clazz);
+		List<T> result = this.getHqlQuery(hql).list();
+		return result;
+	}
+
+	@Override
+	public List<T> query(Class<T> clazz, String order, int page, int rows) {
+		String hql = SqlUtil.getListHql(order, clazz);
+		List<T> result = this.getHqlQuery(hql).setFirstResult((page - 1) * rows).setMaxResults(rows).list();
+		return result;
+	}
+
+	@Override
+	public List<T> query(Class<T> clazz, String order, String property, Object value) {
+		String hql = SqlUtil.getListHql(order, clazz, property);
+		Query query = getHqlQuery(hql);
+		query.setParameter(0, value);
+		List<T> result = query.list();
+		return result;
+	}
+
+	@Override
+	public List<T> query(Class<T> clazz, String order, String[] property, Object... value) {
+		String hql = SqlUtil.getListHql(order, clazz, property);
+		Query query = getHqlQuery(hql);
+		for (int i = 0; i < value.length; i++) {
+			query.setParameter(i, value[i]);
+		}
+		List<T> result = query.list();
+		return result;
+	}
+
+	@Override
+	public List<T> query(Class<T> clazz, Map<String, Object> map, String order) {
+		List<String> keys = new ArrayList<String>();
+		List<Object> values = new ArrayList<Object>();
+
+		for (String key : map.keySet()) {
+			keys.add(key);
+			values.add(map.get(key));
+		}
+
+		String[] condition = new String[keys.size()];
+		keys.toArray(condition);
+		Object[] value = new Object[values.size()];
+		values.toArray(value);
+		return query(clazz, order, condition, value);
+	}
+
+	@Override
+	public List<T> query(Class<T> clazz, int page, int rows, String order, String property, Object value) {
+		String hql = SqlUtil.getListHql(order, clazz, property);
+		Query query = getHqlQuery(hql);
+		query.setParameter(0, value);
+		List<T> result = query.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
+		return result;
+	}
+
+	@Override
+	public List<T> query(Class<T> clazz, int page, int rows, String order, String[] property, Object... value) {
+		String hql = SqlUtil.getListHql(order, clazz, property);
+		Query query = getHqlQuery(hql);
+		for (int i = 0; i < value.length; i++) {
+			query.setParameter(i, value[i]);
+		}
+		List<T> result = query.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
+		return result;
+	}
+
+	@Override
+	public List<T> query(Class<T> clazz, int page, int rows, Map<String, Object> map, String order) {
+		List<String> keys = new ArrayList<String>();
+		List<Object> values = new ArrayList<Object>();
+
+		for (String key : map.keySet()) {
+			keys.add(key);
+			values.add(map.get(key));
+		}
+
+		String[] condition = new String[keys.size()];
+		keys.toArray(condition);
+		Object[] value = new Object[values.size()];
+		values.toArray(value);
+		return query(clazz, page, rows, order, condition, value);
+	}
+
+	@Override
+	public long count(Class clazz) {
+		String countHql = SqlUtil.getCountHql(clazz);
+		Query query = getHqlQuery(countHql);
+		Long count = (long) query.uniqueResult();
+		return count;
+	}
+
+	@Override
+	public long count(Class clazz, String property, Object... value) {
+		String countHql = SqlUtil.getCountHql(clazz, property);
+		Query query = getHqlQuery(countHql);
+		for (int i = 0; i < value.length; i++) {
+			query.setParameter(i, value[i]);
+		}
+		Long count = (Long) query.uniqueResult();
+		return count;
+	}
+
+	@Override
+	public long count(Class clazz, String[] property, Object... value) {
+		String countHql = SqlUtil.getCountHql(clazz, property);
+		Query query = getHqlQuery(countHql);
+		for (int i = 0; i < value.length; i++) {
+			query.setParameter(i, value[i]);
+		}
+		long count = (long) query.uniqueResult();
+		return count;
+	}
+
+	@Override
+	public long count(Class clazz, Map<String, Object> map) {
+		List<String> keys = new ArrayList<String>();
+		List<Object> values = new ArrayList<Object>();
+
+		for (String key : map.keySet()) {
+			keys.add(key);
+			values.add(map.get(key));
+		}
+
+		String[] condition = new String[keys.size()];
+		keys.toArray(condition);
+		Object[] value = new Object[values.size()];
+		values.toArray(value);
+		return count(clazz, condition, value);
+	}
 }

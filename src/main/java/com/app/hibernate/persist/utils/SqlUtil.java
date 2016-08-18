@@ -1,5 +1,7 @@
 package com.app.hibernate.persist.utils;
 
+import org.springframework.util.StringUtils;
+
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -340,9 +342,27 @@ public class SqlUtil {
 	 */
 	public static String getListHql(Class clazz) {
 		StringBuilder builder = new StringBuilder(128);
-		builder.append("select t from ");
+		builder.append(" from ");
 		builder.append(clazz.getSimpleName());
-		builder.append(" t");
+		return builder.toString();
+	}
+
+	/**
+	 * 根据class对象获取当前的HQL语句 LIST(无参数)
+	 *
+	 * @param order
+	 * @param clazz
+	 * @return
+	 *
+	 */
+	public static String getListHql(String order, Class clazz) {
+		StringBuilder builder = new StringBuilder(128);
+		builder.append(" from ");
+		builder.append(clazz.getSimpleName());
+		if (!StringUtils.isEmpty(order)) {
+			builder.append(" order by ");
+			builder.append(order);
+		}
 		return builder.toString();
 	}
 
@@ -350,6 +370,7 @@ public class SqlUtil {
 	 * 根据class对象获取当前的HQL语句 LIST(带参数)
 	 *
 	 * @param clazz
+	 * @param property
 	 * @return
 	 *
 	 */
@@ -357,15 +378,45 @@ public class SqlUtil {
 		StringBuilder builder = new StringBuilder(256);
 		builder.append(getListHql(clazz));
 		if (property != null && property.length > 0) {
-			builder.append(" where t.");
+			builder.append(" where ");
 			for (int i = 0; i < property.length; i++) {
 				builder.append(property[i]);
 
 				if (i == property.length - 1)
 					builder.append(" = ?");
 				else
-					builder.append(" = ? and t.");
+					builder.append(" = ? and ");
 			}
+		}
+		return builder.toString();
+	}
+
+	/**
+	 * 根据class对象获取当前的HQL语句 LIST(带参数)
+	 *
+	 * @param order
+	 * @param clazz
+	 * @param property
+	 * @return
+	 *
+	 */
+	public static String getListHql(String order, Class clazz, String... property) {
+		StringBuilder builder = new StringBuilder(256);
+		builder.append(getListHql(clazz));
+		if (property != null && property.length > 0) {
+			builder.append(" where ");
+			for (int i = 0; i < property.length; i++) {
+				builder.append(property[i]);
+
+				if (i == property.length - 1)
+					builder.append(" = ?");
+				else
+					builder.append(" = ? and ");
+			}
+		}
+		if (!StringUtils.isEmpty(order)) {
+			builder.append(" order by ");
+			builder.append(order);
 		}
 		return builder.toString();
 	}
@@ -381,7 +432,6 @@ public class SqlUtil {
 		StringBuilder builder = new StringBuilder(128);
 		builder.append("select count(*) from ");
 		builder.append(clazz.getSimpleName());
-		builder.append(" t");
 		return builder.toString();
 	}
 
@@ -389,6 +439,7 @@ public class SqlUtil {
 	 * 根据class对象获取当前的HQL语句 COUNT(有参数)
 	 *
 	 * @param clazz
+	 * @param property
 	 * @return
 	 *
 	 */
@@ -396,14 +447,14 @@ public class SqlUtil {
 		StringBuilder builder = new StringBuilder(256);
 		builder.append(getCountHql(clazz));
 		if (property != null && property.length > 0) {
-			builder.append(" where t.");
+			builder.append(" where ");
 			for (int i = 0; i < property.length; i++) {
 				builder.append(property[i]);
 
 				if (i == property.length - 1)
 					builder.append(" = ?");
 				else
-					builder.append(" = ? and t.");
+					builder.append(" = ? and ");
 			}
 
 		}
