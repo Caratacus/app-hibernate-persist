@@ -296,7 +296,23 @@ public interface CRUDDao {
 	 * @version 1.0
 	 *
 	 */
-	public List<Map> queryListWithHql(String hql);
+	public List queryListWithHql(String hql);
+
+	/**
+	 *
+	 * 根据Hql语句查询
+	 *
+	 * @param hql
+	 * @param page
+	 * @param rows
+	 * @author Caratacus
+	 * @date 2016/4/29 0029
+	 * @return
+	 * @throws
+	 * @version 1.0
+	 *
+	 */
+	public List queryListWithHql(String hql, int page, int rows);
 
 	/**
 	 *

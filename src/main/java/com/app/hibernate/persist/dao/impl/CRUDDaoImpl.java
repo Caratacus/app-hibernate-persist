@@ -385,9 +385,16 @@ public class CRUDDaoImpl implements CRUDDao {
 	}
 
 	@Override
-	public List<Map> queryListWithHql(String hql) {
+	public List queryListWithHql(String hql) {
 		Query query = getHqlQuery(hql);
-		return (List<Map>) query.list();
+		return query.list();
+	}
+
+	@Override
+	public List queryListWithHql(String hql, int page, int rows) {
+		Query query = getHqlQuery(hql);
+		List list = this.getHqlQuery(hql).setFirstResult((page - 1) * rows).setMaxResults(rows).list();
+		return list;
 	}
 
 	@Override
