@@ -304,8 +304,7 @@ public class HibernateUtil {
 			builder.append(" in ");
 		else
 			builder.append(" = ");
-		builder.append(" in ");
-		builder.append(" :");
+		builder.append(":");
 		builder.append(property);
 	}
 
@@ -326,7 +325,7 @@ public class HibernateUtil {
 			builder.append(" in ");
 		else
 			builder.append(" = ");
-		builder.append(" :");
+		builder.append(":");
 		builder.append(property);
 		builder.append(" and ");
 	}
