@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.app.hibernate.persist.dao.HibernateDao;
-import com.app.hibernate.persist.utils.SqlUtil;
+import com.app.hibernate.persist.utils.HibernateUtil;
 
 @SuppressWarnings("unchecked")
 @Repository
@@ -175,21 +175,21 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz) {
-		String hql = SqlUtil.getListHql(clazz);
+		String hql = HibernateUtil.getListHql(clazz);
 		List<T> result = this.getHqlQuery(hql).list();
 		return result;
 	}
 
 	@Override
 	public List<T> query(Class<T> clazz, int page, int rows) {
-		String hql = SqlUtil.getListHql(clazz);
+		String hql = HibernateUtil.getListHql(clazz);
 		List<T> result = this.getHqlQuery(hql).setFirstResult((page - 1) * rows).setMaxResults(rows).list();
 		return result;
 	}
 
 	@Override
 	public List<T> query(Class<T> clazz, String property, Object value) {
-		String hql = SqlUtil.getListHql(clazz, property);
+		String hql = HibernateUtil.getListHql(clazz, property);
 		Query query = getHqlQuery(hql);
 		query.setParameter(0, value);
 		List<T> result = query.list();
@@ -198,7 +198,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, String[] property, Object... value) {
-		String hql = SqlUtil.getListHql(clazz, property);
+		String hql = HibernateUtil.getListHql(clazz, property);
 		Query query = getHqlQuery(hql);
 		for (int i = 0; i < value.length; i++) {
 			query.setParameter(i, value[i]);
@@ -208,25 +208,20 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	}
 
 	@Override
-	public List<T> query(Class<T> clazz, Map<String, Object> map) {
-		List<String> keys = new ArrayList<String>();
-		List<Object> values = new ArrayList<Object>();
-
-		for (String key : map.keySet()) {
-			keys.add(key);
-			values.add(map.get(key));
+	public List<T> query(Class<T> clazz, Map<String, Object> params) {
+		String hql = HibernateUtil.getListHql(clazz, params);
+		Query query = getHqlQuery(hql);
+		for (String key : params.keySet()) {
+			Object obj = params.get(key);
+			HibernateUtil.setParams(query, key, obj);
 		}
-
-		String[] condition = new String[keys.size()];
-		keys.toArray(condition);
-		Object[] value = new Object[values.size()];
-		values.toArray(value);
-		return query(clazz, condition, value);
+		List<T> result = query.list();
+		return result;
 	}
 
 	@Override
 	public List<T> query(Class<T> clazz, int page, int rows, String property, Object value) {
-		String hql = SqlUtil.getListHql(clazz, property);
+		String hql = HibernateUtil.getListHql(clazz, property);
 		Query query = getHqlQuery(hql);
 		query.setParameter(0, value);
 		List<T> result = query.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
@@ -235,7 +230,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, int page, int rows, String[] property, Object... value) {
-		String hql = SqlUtil.getListHql(clazz, property);
+		String hql = HibernateUtil.getListHql(clazz, property);
 		Query query = getHqlQuery(hql);
 		for (int i = 0; i < value.length; i++) {
 			query.setParameter(i, value[i]);
@@ -263,21 +258,21 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, String order) {
-		String hql = SqlUtil.getListHql(order, clazz);
+		String hql = HibernateUtil.getListHql(order, clazz);
 		List<T> result = this.getHqlQuery(hql).list();
 		return result;
 	}
 
 	@Override
 	public List<T> query(Class<T> clazz, String order, int page, int rows) {
-		String hql = SqlUtil.getListHql(order, clazz);
+		String hql = HibernateUtil.getListHql(order, clazz);
 		List<T> result = this.getHqlQuery(hql).setFirstResult((page - 1) * rows).setMaxResults(rows).list();
 		return result;
 	}
 
 	@Override
 	public List<T> query(Class<T> clazz, String order, String property, Object value) {
-		String hql = SqlUtil.getListHql(order, clazz, property);
+		String hql = HibernateUtil.getListHql(order, clazz, property);
 		Query query = getHqlQuery(hql);
 		query.setParameter(0, value);
 		List<T> result = query.list();
@@ -286,7 +281,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, String order, String[] property, Object... value) {
-		String hql = SqlUtil.getListHql(order, clazz, property);
+		String hql = HibernateUtil.getListHql(order, clazz, property);
 		Query query = getHqlQuery(hql);
 		for (int i = 0; i < value.length; i++) {
 			query.setParameter(i, value[i]);
@@ -314,7 +309,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, int page, int rows, String order, String property, Object value) {
-		String hql = SqlUtil.getListHql(order, clazz, property);
+		String hql = HibernateUtil.getListHql(order, clazz, property);
 		Query query = getHqlQuery(hql);
 		query.setParameter(0, value);
 		List<T> result = query.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
@@ -323,7 +318,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, int page, int rows, String order, String[] property, Object... value) {
-		String hql = SqlUtil.getListHql(order, clazz, property);
+		String hql = HibernateUtil.getListHql(order, clazz, property);
 		Query query = getHqlQuery(hql);
 		for (int i = 0; i < value.length; i++) {
 			query.setParameter(i, value[i]);
@@ -351,7 +346,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public long count(Class clazz) {
-		String countHql = SqlUtil.getCountHql(clazz);
+		String countHql = HibernateUtil.getCountHql(clazz);
 		Query query = getHqlQuery(countHql);
 		Long count = (long) query.uniqueResult();
 		return count;
@@ -359,7 +354,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public long count(Class clazz, String property, Object... value) {
-		String countHql = SqlUtil.getCountHql(clazz, property);
+		String countHql = HibernateUtil.getCountHql(clazz, property);
 		Query query = getHqlQuery(countHql);
 		for (int i = 0; i < value.length; i++) {
 			query.setParameter(i, value[i]);
@@ -370,7 +365,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public long count(Class clazz, String[] property, Object... value) {
-		String countHql = SqlUtil.getCountHql(clazz, property);
+		String countHql = HibernateUtil.getCountHql(clazz, property);
 		Query query = getHqlQuery(countHql);
 		for (int i = 0; i < value.length; i++) {
 			query.setParameter(i, value[i]);

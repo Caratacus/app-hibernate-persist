@@ -1,13 +1,8 @@
 package com.app.hibernate.persist.dao;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.hibernate.Query;
-
-import com.app.hibernate.persist.utils.SqlUtil;
 
 public interface HibernateDao<T> {
 	/**
