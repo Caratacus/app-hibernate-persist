@@ -1,7 +1,7 @@
 package com.app.hibernate.persist.dao.impl;
 
 import com.app.common.CollectionUtil;
-import com.app.common.LogisType;
+import com.app.common.Logis;
 import com.app.common.MapUtils;
 import com.app.hibernate.persist.dao.HibernateDao;
 import com.app.hibernate.persist.exceptions.AppHibernateException;
@@ -81,7 +81,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public T get(String hql, Map<String, Object> params) {
-		if (LogisType.isBlank(hql))
+		if (Logis.isBlank(hql))
 			throw new AppHibernateException("execute Get Fail! Param is Empty !");
 		T t = null;
 		try {
@@ -133,7 +133,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(String hql, Map<String, Object> params, int page, int rows) {
-		if (LogisType.isBlank(hql))
+		if (Logis.isBlank(hql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		List<T> list = Collections.EMPTY_LIST;
 		try {

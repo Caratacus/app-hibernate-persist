@@ -1,6 +1,6 @@
 package com.app.hibernate.persist.utils;
 
-import com.app.common.LogisType;
+import com.app.common.Logis;
 import com.app.common.MapUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -123,7 +123,7 @@ public class HibernateUtil {
 	 * @version 1.0
 	 */
 	private static void getWhere(StringBuilder builder, String... property) {
-		if (LogisType.isNoneBlank(property)) {
+		if (Logis.isNoneBlank(property)) {
 			builder.append(" where ");
 			for (int i = 0; i < property.length; i++) {
 				builder.append(property[i]);
@@ -168,7 +168,7 @@ public class HibernateUtil {
 	 * @version 1.0
 	 */
 	private static void getOrderby(String order, StringBuilder builder) {
-		if (LogisType.isNotBlank(order)) {
+		if (Logis.isNotBlank(order)) {
 			builder.append(" order by ");
 			builder.append(order);
 		}
@@ -364,8 +364,11 @@ public class HibernateUtil {
 	 * @version 1.0
 	 */
 	public static void setPage(int page, int rows, Query query) {
-		if (0 != page && 0 != rows)
+		if (0 != rows) {
+			// 只判断row , 如果page异常 初始化为1
+			page = Logis.getInteger(page, 1);
 			query.setFirstResult((page - 1) * rows).setMaxResults(rows);
+		}
 	}
 
 	/**

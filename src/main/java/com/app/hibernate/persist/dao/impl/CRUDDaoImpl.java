@@ -1,6 +1,6 @@
 package com.app.hibernate.persist.dao.impl;
 
-import com.app.common.LogisType;
+import com.app.common.Logis;
 import com.app.common.MapUtils;
 import com.app.hibernate.persist.dao.CRUDDao;
 import com.app.hibernate.persist.exceptions.AppHibernateException;
@@ -34,7 +34,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public long queryCountWithHql(String hql, Map<String, Object> params) {
-        if (LogisType.isBlank(hql))
+        if (Logis.isBlank(hql))
             throw new AppHibernateException("Query Count Fail! Param is Empty !");
         Query query = HibernateUtil.getHqlQuery(hql,sessionFactory);
         if (MapUtils.isNotEmpty(params)) {
@@ -53,7 +53,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public int executeHql(String hql, Map<String, Object> params) {
-        if (LogisType.isBlank(hql))
+        if (Logis.isBlank(hql))
             throw new AppHibernateException("execute Query Fail! Param is Empty !");
         Query query = HibernateUtil.getHqlQuery(hql,sessionFactory);
         if (MapUtils.isNotEmpty(params)) {
@@ -72,7 +72,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public int executeSql(String sql, Map<String, Object> params) {
-        if (LogisType.isBlank(sql))
+        if (Logis.isBlank(sql))
             throw new AppHibernateException("execute Query Fail! Param is Empty !");
         Query query = HibernateUtil.getSqlQuery(sql,sessionFactory);
         if (MapUtils.isNotEmpty(params)) {
@@ -91,7 +91,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public long queryCountWithSql(String sql, Map<String, Object> params) {
-        if (LogisType.isBlank(sql))
+        if (Logis.isBlank(sql))
             throw new AppHibernateException("execute Query Fail! Param is Empty !");
         Query query = HibernateUtil.getSqlQuery(sql,sessionFactory);
         if (MapUtils.isNotEmpty(params)) {
@@ -107,7 +107,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public Map queryMapWithSql(String sql, Map<String, Object> params) {
-        if (LogisType.isBlank(sql))
+        if (Logis.isBlank(sql))
             throw new AppHibernateException("execute Query Fail! Param is Empty !");
         Map resultMap = Collections.EMPTY_MAP;
         try {
@@ -143,7 +143,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public List queryListWithSql(String sql, Map<String, Object> params, int page, int rows) {
-        if (LogisType.isBlank(sql))
+        if (Logis.isBlank(sql))
             throw new AppHibernateException("execute Query Fail! Param is Empty !");
         List list = Collections.EMPTY_LIST;
         try {
@@ -178,10 +178,10 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public int executeSqlUpdate(String sql, Map<String, Object> params) {
-        if (LogisType.isBlank(sql))
+        if (Logis.isBlank(sql))
             throw new AppHibernateException("execute Query Fail! Param is Empty !");
         int resultCount = 0;
-        if (LogisType.isNotBlank(sql)) {
+        if (Logis.isNotBlank(sql)) {
             try {
                 Query query = HibernateUtil.getSqlQuery(sql,sessionFactory);
                 if ((params != null) && !params.isEmpty()) {
@@ -200,7 +200,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public List queryListWithSql(String sql, Object[] args) {
-        if (LogisType.isBlank(sql))
+        if (Logis.isBlank(sql))
             throw new AppHibernateException("execute Query Fail! Param is Empty !");
         List list = Collections.EMPTY_LIST;
         try {
@@ -220,7 +220,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public Map queryMapWithSql(String sql, Object[] args) {
-        if (LogisType.isBlank(sql))
+        if (Logis.isBlank(sql))
             throw new AppHibernateException("execute Query Fail! Param is Empty !");
         Map resultMap = Collections.EMPTY_MAP;
         try {
@@ -240,7 +240,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public int executeSqlUpdate(String sql, Object[] args) {
-        if (LogisType.isBlank(sql))
+        if (Logis.isBlank(sql))
             throw new AppHibernateException("execute Query Fail! Param is Empty !");
         int resultCount = 0;
         try {
@@ -327,7 +327,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public List queryListWithHql(String hql, int page, int rows) {
-        if (LogisType.isBlank(hql))
+        if (Logis.isBlank(hql))
             throw new AppHibernateException("execute Query Fail! Param is Empty !");
         List list = Collections.EMPTY_LIST;
         try {
