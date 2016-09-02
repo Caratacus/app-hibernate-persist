@@ -1,13 +1,14 @@
 package com.app.hibernate.persist.dao.impl;
 
+import static com.app.common.Common.fail;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.app.common.LogisType;
-import com.app.common.MapUtils;
-import com.app.hibernate.persist.exceptions.AppHibernateException;
+import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,10 +18,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.app.common.LogisType;
+import com.app.common.MapUtils;
 import com.app.hibernate.persist.dao.CRUDDao;
+import com.app.hibernate.persist.exceptions.AppHibernateException;
 import com.app.hibernate.persist.utils.HibernateUtil;
-
-import static com.app.common.Common.fail;
 
 @Repository("crudDao")
 public class CRUDDaoImpl implements CRUDDao {
@@ -45,25 +47,13 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public long queryCountWithHql(String hql) {
-        if (LogisType.isBlank(hql)) {
-            throw new AppHibernateException("Query Count Fail! Param is Empty !");
-        }
-        long count = 0L;
-        Query query = getHqlQuery(hql);
-        try {
-            count = (long) query.uniqueResult();
-        } catch (Exception e) {
-            logger.error(fail() + ",hql=" + hql, e);
-        }
-        return count;
+        return queryCountWithHql(hql, Collections.EMPTY_MAP);
     }
 
     @Override
     public long queryCountWithHql(String hql, Map<String, Object> params) {
-        if (LogisType.isBlank(hql) || MapUtils.isEmpty(params)) {
+        if (LogisType.isBlank(hql))
             throw new AppHibernateException("Query Count Fail! Param is Empty !");
-        }
-        long count = 0L;
         Query query = getHqlQuery(hql);
         if (MapUtils.isNotEmpty(params)) {
             for (String key : params.keySet()) {
@@ -71,22 +61,18 @@ public class CRUDDaoImpl implements CRUDDao {
                 HibernateUtil.setParams(query, key, obj);
             }
         }
-        try {
-            count = (long) query.uniqueResult();
-        } catch (Exception e) {
-            logger.error(fail(), e);
-        }
-        return count;
+        return (long) query.uniqueResult();
     }
 
     @Override
     public int executeHql(String hql) {
-        Query query = getHqlQuery(hql);
-        return query.executeUpdate();
+        return executeHql(hql, Collections.EMPTY_MAP);
     }
 
     @Override
     public int executeHql(String hql, Map<String, Object> params) {
+        if (LogisType.isBlank(hql))
+            throw new AppHibernateException("execute Query Fail! Param is Empty !");
         Query query = getHqlQuery(hql);
         if (MapUtils.isNotEmpty(params)) {
             for (String key : params.keySet()) {
@@ -99,171 +85,120 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public int executeSql(String sql) {
-        Query q = getSqlQuery(sql);
-        return q.executeUpdate();
+        return executeSql(sql, Collections.EMPTY_MAP);
     }
 
     @Override
     public int executeSql(String sql, Map<String, Object> params) {
-        Query q = getSqlQuery(sql);
+        if (LogisType.isBlank(sql))
+            throw new AppHibernateException("execute Query Fail! Param is Empty !");
+        Query query = getSqlQuery(sql);
         if (MapUtils.isNotEmpty(params)) {
             for (String key : params.keySet()) {
                 Object obj = params.get(key);
-                if (obj.getClass().isArray()) {
-                    q.setParameterList(key, (String[]) obj);
-                } else if (obj instanceof List) {
-                    q.setParameterList(key, (List) obj);
-                } else {
-                    q.setParameter(key, params.get(key));
-                }
+                HibernateUtil.setParams(query, key, obj);
             }
         }
-        return q.executeUpdate();
+        return query.executeUpdate();
     }
 
     @Override
     public long queryCountWithSql(String sql) {
-        Query q = getSqlQuery(sql);
-        BigInteger count = (BigInteger) q.uniqueResult();
-        return count.longValue();
+        return queryCountWithSql(sql, Collections.EMPTY_MAP);
     }
 
     @Override
     public long queryCountWithSql(String sql, Map<String, Object> params) {
-        Query q = getSqlQuery(sql);
+        if (LogisType.isBlank(sql))
+            throw new AppHibernateException("execute Query Fail! Param is Empty !");
+        Query query = getSqlQuery(sql);
         if (MapUtils.isNotEmpty(params)) {
             for (String key : params.keySet()) {
                 Object obj = params.get(key);
-                if (obj.getClass().isArray()) {
-                    q.setParameterList(key, (String[]) obj);
-                } else if (obj instanceof List) {
-                    q.setParameterList(key, (List) obj);
-                } else {
-                    q.setParameter(key, params.get(key));
-                }
+                HibernateUtil.setParams(query, key, obj);
             }
         }
-        BigInteger count = (BigInteger) q.uniqueResult();
+        BigInteger count = (BigInteger) query.uniqueResult();
         return count.longValue();
     }
 
-    @Override
-    public List queryListWithSql(String sql) {
-        List list = null;
-        try {
-            logger.debug(sql);
-            Query query = getSqlQuery(sql);
-            query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-            list = query.list();
-        } catch (Exception e) {
-            logger.error("queryListWithSql", e);
-        }
-        return list;
-    }
 
     @Override
-    public Map queryMapWithSql(String sql) {
-        Map resultMap = null;
+    public Map queryMapWithSql(String sql, Map<String, Object> params) {
+        if (LogisType.isBlank(sql))
+            throw new AppHibernateException("execute Query Fail! Param is Empty !");
+        Map resultMap = Collections.EMPTY_MAP;
         try {
-            logger.debug(sql);
             Query query = getSqlQuery(sql);
             query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+            if (MapUtils.isNotEmpty(params)) {
+                for (String key : params.keySet()) {
+                    Object obj = params.get(key);
+                    HibernateUtil.setParams(query, key, obj);
+                }
+            }
             resultMap = (Map) query.uniqueResult();
         } catch (Exception e) {
-            logger.error("queryMapWithSql", e);
+            logger.error(fail(), e);
         }
         return resultMap;
     }
 
     @Override
+    public Map queryMapWithSql(String sql) {
+        return queryMapWithSql(sql, Collections.EMPTY_MAP);
+    }
+
+    @Override
+    public List queryListWithSql(String sql) {
+        return queryListWithSql(sql, Collections.EMPTY_MAP);
+    }
+
+    @Override
+    public List queryListWithSql(String sql, int page, int rows) {
+        return queryListWithSql(sql, Collections.EMPTY_MAP, page, rows);
+    }
+
+    @Override
     public List queryListWithSql(String sql, Map<String, Object> params, int page, int rows) {
-        List list = null;
+        if (LogisType.isBlank(sql))
+            throw new AppHibernateException("execute Query Fail! Param is Empty !");
+        List list = Collections.EMPTY_LIST;
         try {
-            logger.debug("params", params);
-            logger.debug(sql);
-            Query q = getSqlQuery(sql);
-            q.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-            if ((params != null) && !params.isEmpty()) {
+            Query query = getSqlQuery(sql);
+            query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+            if (MapUtils.isNotEmpty(params)) {
                 for (String key : params.keySet()) {
                     Object obj = params.get(key);
-                    if (obj.getClass().isArray()) {
-                        q.setParameterList(key, (String[]) obj);
-                    } else if (obj instanceof List) {
-                        q.setParameterList(key, (List) obj);
-                    } else {
-                        q.setParameter(key, params.get(key));
-                    }
+                    HibernateUtil.setParams(query, key, obj);
                 }
             }
-            list = q.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
+            HibernateUtil.setPage(page, rows, query);
+            list = query.list();
         } catch (Exception e) {
-            logger.error("queryListWithSql", e);
+            logger.error(fail(), e);
         }
         return list;
     }
 
     @Override
     public List queryListWithSql(String sql, Map<String, Object> params) {
-        List list = null;
-        try {
-            logger.debug("params", params);
-            logger.debug("sql", sql);
-            Query query = getSqlQuery(sql);
-            query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-            if (MapUtils.isNotEmpty(params)) {
-                for (String key : params.keySet()) {
-                    Object obj = params.get(key);
-                    if (obj.getClass().isArray()) {
-                        query.setParameterList(key, (String[]) obj);
-                    } else if (obj instanceof List) {
-                        query.setParameterList(key, (List) obj);
-                    } else {
-                        query.setParameter(key, params.get(key));
-                    }
-                }
-            }
-            list = query.list();
-        } catch (Exception e) {
-            logger.error("queryListWithSql", e);
-        }
-        return list;
+        return queryListWithSql(sql, params, 0, 0);
     }
 
-    @Override
-    public Map queryMapWithSql(String sql, Map<String, Object> params) {
-        Map resultMap = null;
-        try {
-            logger.debug("params", params);
-            logger.debug("sql", sql);
-            Query query = getSqlQuery(sql);
-            query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-            if (MapUtils.isNotEmpty(params)) {
-                for (String key : params.keySet()) {
-                    Object obj = params.get(key);
-                    if (obj.getClass().isArray()) {
-                        query.setParameterList(key, (String[]) obj);
-                    } else if (obj instanceof List) {
-                        query.setParameterList(key, (List) obj);
-                    } else {
-                        query.setParameter(key, params.get(key));
-                    }
-                }
-            }
-            resultMap = (Map) query.uniqueResult();
-        } catch (Exception e) {
-            logger.error("queryMapWithSql", e);
-        }
-        return resultMap;
-    }
 
     /**
      * 获取SQLQuery对象
      *
      * @param sql
-     * @return
+     * @return Query
+     * @throws
      * @author Caratacus
+     * @date 2016/9/2 0002
+     * @version 1.0
      */
     private Query getSqlQuery(String sql) {
+        System.err.println("Execute SQL：" + sql);
         return this.getCurrentSession().createSQLQuery(sql);
     }
 
@@ -271,51 +206,39 @@ public class CRUDDaoImpl implements CRUDDao {
      * 获取HQLQuery对象
      *
      * @param hql
-     * @return
+     * @return Query
+     * @throws
      * @author Caratacus
+     * @date 2016/9/2 0002
+     * @version 1.0
      */
     private Query getHqlQuery(String hql) {
+        System.err.println("Execute HQL：" + hql);
         return this.getCurrentSession().createQuery(hql);
     }
 
     @Override
     public int executeSqlUpdate(String sql) {
-        int resultCount = 0;
-        if (LogisType.isNotBlank(sql)) {
-            try {
-                logger.debug(sql);
-                Query query = getSqlQuery(sql);
-                resultCount = query.executeUpdate();
-            } catch (Exception e) {
-                logger.error("executeSqlUpdate", e);
-            }
-        }
-        return resultCount;
+        return executeSqlUpdate(sql, Collections.EMPTY_MAP);
     }
 
     @Override
     public int executeSqlUpdate(String sql, Map<String, Object> params) {
+        if (LogisType.isBlank(sql))
+            throw new AppHibernateException("execute Query Fail! Param is Empty !");
         int resultCount = 0;
         if (LogisType.isNotBlank(sql)) {
             try {
-                logger.debug("params", params);
-                logger.debug("sql", sql);
                 Query query = getSqlQuery(sql);
                 if ((params != null) && !params.isEmpty()) {
                     for (String key : params.keySet()) {
                         Object obj = params.get(key);
-                        if (obj.getClass().isArray()) {
-                            query.setParameterList(key, (String[]) obj);
-                        } else if (obj instanceof List) {
-                            query.setParameterList(key, (List) obj);
-                        } else {
-                            query.setParameter(key, params.get(key));
-                        }
+                        HibernateUtil.setParams(query, key, obj);
                     }
                 }
                 resultCount = query.executeUpdate();
             } catch (Exception e) {
-                logger.error("executeSqlUpdate", e);
+                logger.error(fail(), e);
             }
         }
         return resultCount;
@@ -323,132 +246,147 @@ public class CRUDDaoImpl implements CRUDDao {
 
     @Override
     public List queryListWithSql(String sql, Object[] args) {
-        List list = null;
+        if (LogisType.isBlank(sql))
+            throw new AppHibernateException("execute Query Fail! Param is Empty !");
+        List list = Collections.EMPTY_LIST;
         try {
-            logger.debug("params", args);
-            logger.debug("sql", sql);
             Query query = getSqlQuery(sql);
             query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-            for (int i = 0; i < args.length; i++) {
-                query.setParameter(i, args[i]);
+            if (null != args) {
+                for (int i = 0; i < args.length; i++) {
+                    query.setParameter(i, args[i]);
+                }
             }
             list = query.list();
         } catch (Exception e) {
-            logger.error("queryListWithSql", e);
+            logger.error(fail(), e);
         }
         return list;
     }
 
     @Override
     public Map queryMapWithSql(String sql, Object[] args) {
-        Map resultMap = null;
+        if (LogisType.isBlank(sql))
+            throw new AppHibernateException("execute Query Fail! Param is Empty !");
+        Map resultMap = Collections.EMPTY_MAP;
         try {
-            logger.debug("params", args);
-            logger.debug("sql", sql);
             Query query = getSqlQuery(sql);
             query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-            for (int i = 0; i < args.length; i++) {
-                query.setParameter(i, args[i]);
+            if (null != args) {
+                for (int i = 0; i < args.length; i++) {
+                    query.setParameter(i, args[i]);
+                }
             }
             resultMap = (Map) query.uniqueResult();
         } catch (Exception e) {
-            logger.error("queryMapWithSql", e);
+            logger.error(fail(), e);
         }
         return resultMap;
     }
 
     @Override
     public int executeSqlUpdate(String sql, Object[] args) {
+        if (LogisType.isBlank(sql))
+            throw new AppHibernateException("execute Query Fail! Param is Empty !");
         int resultCount = 0;
-        if (null != sql) {
-            try {
-                logger.debug("params", args);
-                logger.debug("sql", sql);
-                Query query = getSqlQuery(sql);
+        try {
+            Query query = getSqlQuery(sql);
+            if (null != args) {
                 for (int i = 0; i < args.length; i++) {
                     query.setParameter(i, args[i]);
                 }
-                resultCount = query.executeUpdate();
-            } catch (Exception e) {
-                logger.error("executeSqlUpdate", e);
             }
+            resultCount = query.executeUpdate();
+        } catch (Exception e) {
+            logger.error(fail(), e);
         }
         return resultCount;
     }
 
     @Override
     public List queryListWithHql(Class clazz) {
-        String hql = HibernateUtil.getListHql(clazz);
-        Query query = getHqlQuery(hql);
-        return query.list();
+        List list = Collections.EMPTY_LIST;
+        return queryListWithHql(clazz, Collections.EMPTY_MAP);
     }
 
     @Override
     public List queryListWithHql(Class clazz, String property, Object value) {
-        String hql = HibernateUtil.getListHql(clazz, property);
-        Query query = getHqlQuery(hql);
-        query.setParameter(0, value);
-        return query.list();
+        return queryListWithHql(clazz, new String[]{property}, value);
     }
 
     @Override
     public Object queryMapWithHql(Class clazz, String property, Object value) {
-        String hql = HibernateUtil.getListHql(clazz, property);
-        Query query = getHqlQuery(hql);
-        query.setParameter(0, value);
-        return query.uniqueResult();
-    }
-
-    @Override
-    public List queryListWithHql(String hql) {
-        Query query = getHqlQuery(hql);
-        return query.list();
-    }
-
-    @Override
-    public List queryListWithHql(String hql, int page, int rows) {
-        Query query = getHqlQuery(hql);
-        List list = this.getHqlQuery(hql).setFirstResult((page - 1) * rows).setMaxResults(rows).list();
-        return list;
+        Object object = null;
+        try {
+            String hql = HibernateUtil.getListHql(clazz, property);
+            Query query = getHqlQuery(hql);
+            query.setParameter(0, value);
+            object = query.uniqueResult();
+        } catch (Exception e) {
+            logger.error(fail(), e);
+        }
+        return object;
     }
 
     @Override
     public List queryListWithHql(Class clazz, String[] property, Object... value) {
-        String hql = HibernateUtil.getListHql(clazz, property);
-        Query query = getHqlQuery(hql);
-        for (int i = 0; i < value.length; i++) {
-            query.setParameter(i, value[i]);
+        List list = Collections.EMPTY_LIST;
+        try {
+            String hql = HibernateUtil.getListHql(clazz, property);
+            Query query = getHqlQuery(hql);
+            if (null != value) {
+                for (int i = 0; i < value.length; i++) {
+                    query.setParameter(i, value[i]);
+                }
+            }
+            list = query.list();
+
+        } catch (Exception e) {
+            logger.error(fail(), e);
         }
-        return query.list();
+        return list;
+
     }
 
     @Override
     public List queryListWithHql(Class clazz, Map<String, Object> map) {
-        List<String> keys = new ArrayList<String>();
-        List<Object> values = new ArrayList<Object>();
-        for (String key : map.keySet()) {
-            keys.add(key);
-            values.add(map.get(key));
+        List list = Collections.EMPTY_LIST;
+        try {
+            String hql = HibernateUtil.getListHql(clazz, map);
+            Query query = getHqlQuery(hql);
+            for (String key : map.keySet()) {
+                Object obj = map.get(key);
+                HibernateUtil.setParams(query, key, obj);
+            }
+            list = query.list();
+        } catch (Exception e) {
+            logger.error(fail(), e);
         }
-        String[] condition = new String[keys.size()];
-        keys.toArray(condition);
-        Object[] value = new Object[values.size()];
-        values.toArray(value);
-        return queryListWithHql(clazz, condition, value);
+        return list;
+
     }
 
     @Override
-    public List queryListWithSql(String sql, int page, int rows) {
-        List list = null;
+    public List queryListWithHql(String hql) {
+        return queryListWithHql(hql, 0, 0);
+    }
+
+    @Override
+    public List queryListWithHql(String hql, int page, int rows) {
+        if (LogisType.isBlank(hql))
+            throw new AppHibernateException("execute Query Fail! Param is Empty !");
+        List list = Collections.EMPTY_LIST;
         try {
-            logger.debug(sql);
-            Query q = getSqlQuery(sql);
-            q.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-            list = q.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
+            Query query = getHqlQuery(hql);
+            HibernateUtil.setPage(page, rows, query);
+            list = query.list();
+
         } catch (Exception e) {
-            logger.error("queryListWithSql", e);
+            logger.error(fail(), e);
         }
         return list;
+
     }
+
 
 }
