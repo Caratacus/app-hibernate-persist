@@ -1,15 +1,14 @@
 package com.app.hibernate.persist.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.app.common.LogisType;
 import com.app.common.MapUtils;
 import org.hibernate.Query;
-import org.springframework.util.StringUtils;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * sql工具
@@ -368,4 +367,51 @@ public class HibernateUtil {
 		if (0 != page && 0 != rows)
 			query.setFirstResult((page - 1) * rows).setMaxResults(rows);
 	}
+
+	/**
+	 * 获取SQLQuery对象
+	 *
+	 * @param sql
+	 * @param factory
+	 * @return Query
+	 * @throws
+	 * @author Caratacus
+	 * @date 2016/9/2 0002
+	 * @version 1.0
+	 */
+	public static Query getSqlQuery(String sql, SessionFactory factory) {
+		System.err.println("Execute SQL：" + sql);
+		return getCurrentSession(factory).createSQLQuery(sql);
+	}
+
+	/**
+	 * 获取HQLQuery对象
+	 *
+	 * @param hql
+	 * @param factory
+	 * @return Query
+	 * @throws
+	 * @author Caratacus
+	 * @date 2016/9/2 0002
+	 * @version 1.0
+	 */
+	public static Query getHqlQuery(String hql, SessionFactory factory) {
+		System.err.println("Execute HQL：" + hql);
+		return getCurrentSession(factory).createQuery(hql);
+	}
+
+	/**
+	 * 获得当前事务的session
+	 *
+	 * @param factory
+	 * @return Session
+	 * @throws
+	 * @author Caratacus
+	 * @date 2016/9/2 0002
+	 * @version 1.0
+	 */
+	public static Session getCurrentSession(SessionFactory factory) {
+		return factory.getCurrentSession();
+	}
+
 }

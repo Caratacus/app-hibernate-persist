@@ -1,26 +1,23 @@
 package com.app.hibernate.persist.dao.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import com.app.common.CollectionUtil;
+import com.app.common.LogisType;
 import com.app.common.MapUtils;
+import com.app.hibernate.persist.dao.HibernateDao;
+import com.app.hibernate.persist.exceptions.AppHibernateException;
+import com.app.hibernate.persist.utils.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.KeyFactory;
 import org.springframework.stereotype.Repository;
 
-import com.app.common.LogisType;
-import com.app.hibernate.persist.dao.HibernateDao;
-import com.app.hibernate.persist.exceptions.AppHibernateException;
-import com.app.hibernate.persist.utils.HibernateUtil;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static com.app.common.Common.fail;
 
@@ -32,25 +29,11 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	/**
-	 * 获得当前事务的session
-	 *
-	 * @param
-	 * @return Session
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
-	 */
-	public Session getCurrentSession() {
-		return this.sessionFactory.getCurrentSession();
-	}
-
 	@Override
 	public T save(T t) {
 		if (null == t)
 			throw new AppHibernateException("execute Save Fail! Param is Empty !");
-		this.getCurrentSession().save(t);
+		HibernateUtil.getCurrentSession(sessionFactory).save(t);
 		return t;
 	}
 
@@ -58,7 +41,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	public T get(Class<T> clazz, Serializable id) {
 		if (null == id)
 			throw new AppHibernateException("execute Get Fail! Param is Empty !");
-		return (T) this.getCurrentSession().get(clazz, id);
+		return (T) HibernateUtil.getCurrentSession(sessionFactory).get(clazz, id);
 	}
 
 	@Override
@@ -78,7 +61,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	 */
 	private Query getSqlQuery(String sql) {
 		System.err.println("Execute SQL：" + sql);
-		return this.getCurrentSession().createSQLQuery(sql);
+		return HibernateUtil.getCurrentSession(sessionFactory).createSQLQuery(sql);
 	}
 
 	/**
@@ -93,7 +76,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	 */
 	private Query getHqlQuery(String hql) {
 		System.err.println("Execute HQL：" + hql);
-		return this.getCurrentSession().createQuery(hql);
+		return HibernateUtil.getCurrentSession(sessionFactory).createQuery(hql);
 	}
 
 	@Override
@@ -121,21 +104,21 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	public void delete(T t) {
 		if (null == t)
 			throw new AppHibernateException("execute Delete! Param is Empty !");
-		this.getCurrentSession().delete(t);
+		HibernateUtil.getCurrentSession(sessionFactory).delete(t);
 	}
 
 	@Override
 	public void update(T t) {
 		if (null == t)
 			throw new AppHibernateException("execute Update! Param is Empty !");
-		this.getCurrentSession().merge(t);
+		HibernateUtil.getCurrentSession(sessionFactory).merge(t);
 	}
 
 	@Override
 	public void saveOrUpdate(T t) {
 		if (null == t)
 			throw new AppHibernateException("execute SaveOrUpdate! Param is Empty !");
-		this.getCurrentSession().saveOrUpdate(t);
+		HibernateUtil.getCurrentSession(sessionFactory).saveOrUpdate(t);
 	}
 
 	@Override
@@ -174,7 +157,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	public void insertWithBatch(List<T> list) {
 		if (CollectionUtil.isEmpty(list))
 			throw new AppHibernateException("execute BatchInsert Fail! Param is Empty !");
-		Session session = this.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession(sessionFactory);
 		for (int i = 0; i < list.size(); i++) {
 			session.save(list.get(i));
 			if (i % 30 == 0) {
@@ -188,7 +171,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	public void updateWithBatch(List<T> list) {
 		if (CollectionUtil.isEmpty(list))
 			throw new AppHibernateException("execute BatchUpdate Fail! Param is Empty !");
-		Session session = this.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession(sessionFactory);
 		for (int i = 0; i < list.size(); i++) {
 			session.update(list.get(i));
 			if (i % 30 == 0) {
@@ -205,7 +188,6 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, String[] property, Object... value) {
-
 		return query(clazz, 0, 0, property, value);
 	}
 
