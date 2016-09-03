@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +32,7 @@ public class HibernateUtil {
      * @version 1.0
      */
     public static String getListHql(Class clazz) {
-        return getListHql(clazz, Collections.EMPTY_MAP);
+        return getListHql(clazz, Logis.EMPTY_MAP);
     }
 
     /**
@@ -76,7 +75,7 @@ public class HibernateUtil {
      * @version 1.0
      */
     public static String getListHql(String order, Class clazz) {
-        return getListHql(order, clazz, Collections.EMPTY_MAP);
+        return getListHql(order, clazz, Logis.EMPTY_MAP);
     }
 
     /**
@@ -201,7 +200,7 @@ public class HibernateUtil {
      * @version 1.0
      */
     public static String getCountHql(Class clazz) {
-        return getCountHql(clazz, Collections.EMPTY_MAP);
+        return getCountHql(clazz, Logis.EMPTY_MAP);
     }
 
     /**

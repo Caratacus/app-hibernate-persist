@@ -14,11 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.app.common.Common.fail;
+import static com.app.common.Logis.fail;
 
 @Repository("crudDao")
 public class CRUDDaoImpl implements CRUDDao {
@@ -29,7 +28,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
 	@Override
 	public long queryCountWithHql(String hql) {
-		return queryCountWithHql(hql, Collections.EMPTY_MAP);
+		return queryCountWithHql(hql, Logis.EMPTY_MAP);
 	}
 
 	@Override
@@ -48,7 +47,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
 	@Override
 	public int executeHql(String hql) {
-		return executeHql(hql, Collections.EMPTY_MAP);
+		return executeHql(hql, Logis.EMPTY_MAP);
 	}
 
 	@Override
@@ -67,7 +66,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
 	@Override
 	public int executeSql(String sql) {
-		return executeSql(sql, Collections.EMPTY_MAP);
+		return executeSql(sql, Logis.EMPTY_MAP);
 	}
 
 	@Override
@@ -86,7 +85,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
 	@Override
 	public long queryCountWithSql(String sql) {
-		return queryCountWithSql(sql, Collections.EMPTY_MAP);
+		return queryCountWithSql(sql, Logis.EMPTY_MAP);
 	}
 
 	@Override
@@ -108,7 +107,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	public Map queryMapWithSql(String sql, Map<String, Object> params) {
 		if (Logis.isBlank(sql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
-		Map resultMap = Collections.EMPTY_MAP;
+		Map resultMap = Logis.EMPTY_MAP;
 		try {
 			Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
@@ -127,24 +126,24 @@ public class CRUDDaoImpl implements CRUDDao {
 
 	@Override
 	public Map queryMapWithSql(String sql) {
-		return queryMapWithSql(sql, Collections.EMPTY_MAP);
+		return queryMapWithSql(sql, Logis.EMPTY_MAP);
 	}
 
 	@Override
 	public List queryListWithSql(String sql) {
-		return queryListWithSql(sql, Collections.EMPTY_MAP);
+		return queryListWithSql(sql, Logis.EMPTY_MAP);
 	}
 
 	@Override
 	public List queryListWithSql(String sql, int page, int rows) {
-		return queryListWithSql(sql, Collections.EMPTY_MAP, page, rows);
+		return queryListWithSql(sql, Logis.EMPTY_MAP, page, rows);
 	}
 
 	@Override
 	public List queryListWithSql(String sql, Map<String, Object> params, int page, int rows) {
 		if (Logis.isBlank(sql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
-		List list = Collections.EMPTY_LIST;
+		List list = Logis.EMPTY_LIST;
 		try {
 			Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
@@ -169,7 +168,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
 	@Override
 	public int executeSqlUpdate(String sql) {
-		return executeSqlUpdate(sql, Collections.EMPTY_MAP);
+		return executeSqlUpdate(sql, Logis.EMPTY_MAP);
 	}
 
 	@Override
@@ -198,7 +197,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	public List queryListWithSql(String sql, Object[] args) {
 		if (Logis.isBlank(sql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
-		List list = Collections.EMPTY_LIST;
+		List list = Logis.EMPTY_LIST;
 		try {
 			Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
@@ -218,7 +217,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	public Map queryMapWithSql(String sql, Object[] args) {
 		if (Logis.isBlank(sql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
-		Map resultMap = Collections.EMPTY_MAP;
+		Map resultMap = Logis.EMPTY_MAP;
 		try {
 			Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
@@ -255,8 +254,8 @@ public class CRUDDaoImpl implements CRUDDao {
 
 	@Override
 	public List queryListWithHql(Class clazz) {
-		List list = Collections.EMPTY_LIST;
-		return queryListWithHql(clazz, Collections.EMPTY_MAP);
+		List list = Logis.EMPTY_LIST;
+		return queryListWithHql(clazz, Logis.EMPTY_MAP);
 	}
 
 	@Override
@@ -280,7 +279,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
 	@Override
 	public List queryListWithHql(Class clazz, String[] property, Object... value) {
-		List list = Collections.EMPTY_LIST;
+		List list = Logis.EMPTY_LIST;
 		try {
 			String hql = HibernateUtil.getListHql(clazz, property);
 			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
@@ -300,7 +299,7 @@ public class CRUDDaoImpl implements CRUDDao {
 
 	@Override
 	public List queryListWithHql(Class clazz, Map<String, Object> map) {
-		List list = Collections.EMPTY_LIST;
+		List list = Logis.EMPTY_LIST;
 		try {
 			String hql = HibernateUtil.getListHql(clazz, map);
 			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
@@ -325,7 +324,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	public List queryListWithHql(String hql, int page, int rows) {
 		if (Logis.isBlank(hql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
-		List list = Collections.EMPTY_LIST;
+		List list = Logis.EMPTY_LIST;
 		try {
 			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
 			HibernateUtil.setPage(page, rows, query);

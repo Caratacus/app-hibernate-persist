@@ -15,11 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.app.common.Common.fail;
+import static com.app.common.Logis.fail;
 
 @SuppressWarnings("unchecked")
 @Repository
@@ -46,7 +45,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public T get(String hql) {
-		return (T) get(hql, Collections.EMPTY_MAP);
+		return (T) get(hql, Logis.EMPTY_MAP);
 	}
 
 	@Override
@@ -93,7 +92,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(String hql) {
-		return query(hql, Collections.EMPTY_MAP);
+		return query(hql, Logis.EMPTY_MAP);
 	}
 
 	@Override
@@ -105,7 +104,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	public List<T> query(String hql, Map<String, Object> params, int page, int rows) {
 		if (Logis.isBlank(hql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
-		List<T> list = Collections.EMPTY_LIST;
+		List<T> list = Logis.emptyList();
 		try {
 			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
 			setParamMap(params, query);
@@ -120,7 +119,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(String hql, int page, int rows) {
-		return query(hql, Collections.EMPTY_MAP, page, rows);
+		return query(hql, Logis.EMPTY_MAP, page, rows);
 	}
 
 	@Override
@@ -188,7 +187,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, int page, int rows, String order, String[] property, Object... value) {
-		List<T> list = Collections.EMPTY_LIST;
+		List<T> list = Logis.emptyList();
 		try {
 			String hql = HibernateUtil.getListHql(order, clazz, property);
 			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
@@ -207,27 +206,26 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, String order) {
-		return query(clazz, Collections.EMPTY_MAP, order);
+		return query(clazz, Logis.EMPTY_MAP, order);
 	}
 
 	@Override
 	public List<T> query(Class<T> clazz, String order, int page, int rows) {
-		return query(clazz, page, rows, Collections.EMPTY_MAP, order);
+		return query(clazz, page, rows, Logis.EMPTY_MAP, order);
 	}
 
 	@Override
 	public List<T> query(Class<T> clazz) {
-		return query(clazz, Collections.EMPTY_MAP);
+		return query(clazz, Logis.EMPTY_MAP);
 	}
 
 	@Override
 	public List<T> query(Class<T> clazz, int page, int rows) {
-		return query(clazz, page, rows, Collections.EMPTY_MAP, null);
+		return query(clazz, page, rows, Logis.EMPTY_MAP, null);
 	}
 
 	@Override
 	public List<T> query(Class<T> clazz, Map<String, Object> params) {
-
 		return query(clazz, params, Logis.EMPTY_STRING);
 
 	}
@@ -239,7 +237,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, int page, int rows, Map<String, Object> params, String order) {
-		List<T> list = Collections.EMPTY_LIST;
+		List<T> list = Logis.emptyList();
 		try {
 			String hql = HibernateUtil.getListHql(order, clazz, params);
 			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
@@ -280,7 +278,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public long count(Class clazz) {
-		return count(clazz, Collections.EMPTY_MAP);
+		return count(clazz, Logis.EMPTY_MAP);
 	}
 
 	@Override
@@ -300,7 +298,6 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public long count(Class clazz, Map<String, Object> params) {
-
 		String hql = HibernateUtil.getCountHql(clazz, params);
 		Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
 		if (MapUtils.isNotEmpty(params)) {
