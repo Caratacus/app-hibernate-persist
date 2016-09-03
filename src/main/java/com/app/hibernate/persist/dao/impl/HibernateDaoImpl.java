@@ -49,43 +49,13 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 		return (T) get(hql, Collections.EMPTY_MAP);
 	}
 
-	/**
-	 * 获取SQLQuery对象
-	 *
-	 * @param sql
-	 * @return Query
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
-	 */
-	private Query getSqlQuery(String sql) {
-		System.err.println("Execute SQL：" + sql);
-		return HibernateUtil.getCurrentSession(sessionFactory).createSQLQuery(sql);
-	}
-
-	/**
-	 * 获取HQLQuery对象
-	 *
-	 * @param hql
-	 * @return Query
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
-	 */
-	private Query getHqlQuery(String hql) {
-		System.err.println("Execute HQL：" + hql);
-		return HibernateUtil.getCurrentSession(sessionFactory).createQuery(hql);
-	}
-
 	@Override
 	public T get(String hql, Map<String, Object> params) {
 		if (Logis.isBlank(hql))
 			throw new AppHibernateException("execute Get Fail! Param is Empty !");
 		T t = null;
 		try {
-			Query query = getHqlQuery(hql);
+			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
 			if (MapUtils.isNotEmpty(params)) {
 				for (String key : params.keySet()) {
 					Object obj = params.get(key);
@@ -137,7 +107,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		List<T> list = Collections.EMPTY_LIST;
 		try {
-			Query query = getHqlQuery(hql);
+			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
 			setParamMap(params, query);
 			HibernateUtil.setPage(page, rows, query);
 			list = query.list();
@@ -193,12 +163,12 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, int page, int rows, String property, Object value) {
-		return query(clazz, page, rows, null, property, value);
+		return query(clazz, page, rows, Logis.EMPTY_STRING, property, value);
 	}
 
 	@Override
 	public List<T> query(Class<T> clazz, int page, int rows, String[] property, Object... value) {
-		return query(clazz, 0, 0, null, property, value);
+		return query(clazz, 0, 0, Logis.EMPTY_STRING, property, value);
 	}
 
 	@Override
@@ -221,7 +191,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 		List<T> list = Collections.EMPTY_LIST;
 		try {
 			String hql = HibernateUtil.getListHql(order, clazz, property);
-			Query query = getHqlQuery(hql);
+			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
 			if (null != value) {
 				for (int i = 0; i < value.length; i++) {
 					query.setParameter(i, value[i]);
@@ -258,7 +228,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	@Override
 	public List<T> query(Class<T> clazz, Map<String, Object> params) {
 
-		return query(clazz, params, null);
+		return query(clazz, params, Logis.EMPTY_STRING);
 
 	}
 
@@ -272,7 +242,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 		List<T> list = Collections.EMPTY_LIST;
 		try {
 			String hql = HibernateUtil.getListHql(order, clazz, params);
-			Query query = getHqlQuery(hql);
+			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
 			setParamMap(params, query);
 			HibernateUtil.setPage(page, rows, query);
 			list = query.list();
@@ -285,7 +255,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	@Override
 	public List<T> query(Class<T> clazz, int page, int rows, Map<String, Object> map) {
-		return query(clazz, page, rows, map, null);
+		return query(clazz, page, rows, map, Logis.EMPTY_STRING);
 	}
 
 	/**
@@ -321,7 +291,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	@Override
 	public long count(Class clazz, String[] property, Object... value) {
 		String countHql = HibernateUtil.getCountHql(clazz, property);
-		Query query = getHqlQuery(countHql);
+		Query query = HibernateUtil.getHqlQuery(countHql, sessionFactory);
 		for (int i = 0; i < value.length; i++) {
 			query.setParameter(i, value[i]);
 		}
@@ -331,8 +301,8 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 	@Override
 	public long count(Class clazz, Map<String, Object> params) {
 
-		String hql = HibernateUtil.getListHql(clazz, params);
-		Query query = getHqlQuery(hql);
+		String hql = HibernateUtil.getCountHql(clazz, params);
+		Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
 		if (MapUtils.isNotEmpty(params)) {
 			for (String key : params.keySet()) {
 				Object obj = params.get(key);
