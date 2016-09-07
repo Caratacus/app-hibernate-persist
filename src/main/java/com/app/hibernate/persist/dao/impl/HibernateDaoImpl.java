@@ -193,7 +193,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
 			if (null != value) {
 				for (int i = 0; i < value.length; i++) {
-					query.setParameter(i, value[i]);
+					HibernateUtil.setParams(query, Logis.getString(i), value[i]);
 				}
 			}
 			HibernateUtil.setPage(page, rows, query);

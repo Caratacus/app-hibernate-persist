@@ -203,7 +203,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 			if (null != args) {
 				for (int i = 0; i < args.length; i++) {
-					query.setParameter(i, args[i]);
+					HibernateUtil.setParams(query, Logis.getString(i), args[i]);
 				}
 			}
 			list = query.list();
@@ -223,7 +223,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 			if (null != args) {
 				for (int i = 0; i < args.length; i++) {
-					query.setParameter(i, args[i]);
+					HibernateUtil.setParams(query, Logis.getString(i), args[i]);
 				}
 			}
 			resultMap = (Map) query.uniqueResult();
@@ -242,7 +242,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
 			if (null != args) {
 				for (int i = 0; i < args.length; i++) {
-					query.setParameter(i, args[i]);
+					HibernateUtil.setParams(query, Logis.getString(i), args[i]);
 				}
 			}
 			resultCount = query.executeUpdate();
@@ -254,7 +254,6 @@ public class CRUDDaoImpl implements CRUDDao {
 
 	@Override
 	public List queryListWithHql(Class clazz) {
-		List list = Logis.EMPTY_LIST;
 		return queryListWithHql(clazz, Logis.EMPTY_MAP);
 	}
 
@@ -269,7 +268,7 @@ public class CRUDDaoImpl implements CRUDDao {
 		try {
 			String hql = HibernateUtil.getListHql(clazz, property);
 			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
-			query.setParameter(0, value);
+			HibernateUtil.setParams(query, "0", value);
 			object = query.uniqueResult();
 		} catch (Exception e) {
 			logger.error(fail(), e);
@@ -285,7 +284,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
 			if (null != value) {
 				for (int i = 0; i < value.length; i++) {
-					query.setParameter(i, value[i]);
+					HibernateUtil.setParams(query, Logis.getString(i), value);
 				}
 			}
 			list = query.list();
@@ -334,7 +333,6 @@ public class CRUDDaoImpl implements CRUDDao {
 			logger.error(fail(), e);
 		}
 		return list;
-
 	}
 
 }
