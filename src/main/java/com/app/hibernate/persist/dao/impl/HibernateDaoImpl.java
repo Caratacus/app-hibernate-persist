@@ -291,7 +291,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 		String countHql = HibernateUtil.getCountHql(clazz, property);
 		Query query = HibernateUtil.getHqlQuery(countHql, sessionFactory);
 		for (int i = 0; i < value.length; i++) {
-			query.setParameter(i, value[i]);
+			HibernateUtil.setParams(query, Logis.getString(i), value[i]);
 		}
 		return (long) query.uniqueResult();
 	}
