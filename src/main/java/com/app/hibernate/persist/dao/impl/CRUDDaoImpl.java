@@ -19,6 +19,14 @@ import java.util.Map;
 
 import static com.app.common.Logis.fail;
 
+/**
+ * <p>
+ * CRUDDao接口实现
+ * </p>
+ *
+ * @author Caratacus
+ * @date 2016-10-14
+ */
 @Repository("crudDao")
 public class CRUDDaoImpl implements CRUDDao {
 
@@ -104,7 +112,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	}
 
 	@Override
-	public Map queryMapWithSql(String sql, Map<String, Object> params) {
+	public Map<?, ?> queryMapWithSql(String sql, Map<String, Object> params) {
 		if (Logis.isBlank(sql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		Map resultMap = Logis.EMPTY_MAP;
@@ -125,22 +133,22 @@ public class CRUDDaoImpl implements CRUDDao {
 	}
 
 	@Override
-	public Map queryMapWithSql(String sql) {
+	public Map<?, ?> queryMapWithSql(String sql) {
 		return queryMapWithSql(sql, Logis.EMPTY_MAP);
 	}
 
 	@Override
-	public List queryListWithSql(String sql) {
+	public List<?> queryListWithSql(String sql) {
 		return queryListWithSql(sql, Logis.EMPTY_MAP);
 	}
 
 	@Override
-	public List queryListWithSql(String sql, int page, int rows) {
+	public List<?> queryListWithSql(String sql, int page, int rows) {
 		return queryListWithSql(sql, Logis.EMPTY_MAP, page, rows);
 	}
 
 	@Override
-	public List queryListWithSql(String sql, Map<String, Object> params, int page, int rows) {
+	public List<?> queryListWithSql(String sql, Map<String, Object> params, int page, int rows) {
 		if (Logis.isBlank(sql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		List list = Logis.EMPTY_LIST;
@@ -162,7 +170,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	}
 
 	@Override
-	public List queryListWithSql(String sql, Map<String, Object> params) {
+	public List<?> queryListWithSql(String sql, Map<String, Object> params) {
 		return queryListWithSql(sql, params, 0, 0);
 	}
 
@@ -194,7 +202,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	}
 
 	@Override
-	public List queryListWithSql(String sql, Object[] args) {
+	public List<?> queryListWithSql(String sql, Object[] args) {
 		if (Logis.isBlank(sql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		List list = Logis.EMPTY_LIST;
@@ -214,7 +222,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	}
 
 	@Override
-	public Map queryMapWithSql(String sql, Object[] args) {
+	public Map<?, ?> queryMapWithSql(String sql, Object[] args) {
 		if (Logis.isBlank(sql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		Map resultMap = Logis.EMPTY_MAP;
@@ -253,12 +261,12 @@ public class CRUDDaoImpl implements CRUDDao {
 	}
 
 	@Override
-	public List queryListWithHql(Class clazz) {
+	public List<?> queryListWithHql(Class clazz) {
 		return queryListWithHql(clazz, Logis.EMPTY_MAP);
 	}
 
 	@Override
-	public List queryListWithHql(Class clazz, String property, Object value) {
+	public List<?> queryListWithHql(Class clazz, String property, Object value) {
 		return queryListWithHql(clazz, new String[] { property }, value);
 	}
 
@@ -277,7 +285,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	}
 
 	@Override
-	public List queryListWithHql(Class clazz, String[] property, Object... value) {
+	public List<?> queryListWithHql(Class clazz, String[] property, Object... value) {
 		List list = Logis.EMPTY_LIST;
 		try {
 			String hql = HibernateUtil.getListHql(clazz, property);
@@ -297,7 +305,7 @@ public class CRUDDaoImpl implements CRUDDao {
 	}
 
 	@Override
-	public List queryListWithHql(Class clazz, Map<String, Object> map) {
+	public List<?> queryListWithHql(Class clazz, Map<String, Object> map) {
 		List list = Logis.EMPTY_LIST;
 		try {
 			String hql = HibernateUtil.getListHql(clazz, map);
@@ -315,12 +323,12 @@ public class CRUDDaoImpl implements CRUDDao {
 	}
 
 	@Override
-	public List queryListWithHql(String hql) {
+	public List<?> queryListWithHql(String hql) {
 		return queryListWithHql(hql, 0, 0);
 	}
 
 	@Override
-	public List queryListWithHql(String hql, int page, int rows) {
+	public List<?> queryListWithHql(String hql, int page, int rows) {
 		if (Logis.isBlank(hql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		List list = Logis.EMPTY_LIST;

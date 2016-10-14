@@ -16,10 +16,12 @@
 package com.app.hibernate.persist.exceptions;
 
 /**
- * AppHibernateException
- * 
+ * <p>
+ * AppHibernateException 异常类
+ * </p>
+ *
  * @author Caratacus
- * @Date 2016-08-27
+ * @date 2016-10-14
  */
 public class AppHibernateException extends RuntimeException {
 

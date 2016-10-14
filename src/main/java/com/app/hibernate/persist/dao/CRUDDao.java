@@ -3,6 +3,14 @@ package com.app.hibernate.persist.dao;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <p>
+ * CRUDDao接口
+ * </p>
+ *
+ * @author Caratacus
+ * @date 2016-10-14
+ */
 public interface CRUDDao {
 
 	/**
@@ -10,11 +18,7 @@ public interface CRUDDao {
 	 * 根据hql获取数量
 	 * 
 	 * @param hql
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return long
 	 *
 	 */
 	public long queryCountWithHql(String hql);
@@ -25,11 +29,7 @@ public interface CRUDDao {
 	 * 
 	 * @param hql
 	 * @param params
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return long
 	 *
 	 */
 	public long queryCountWithHql(String hql, Map<String, Object> params);
@@ -39,11 +39,7 @@ public interface CRUDDao {
 	 * 执行insert、update hql语句
 	 * 
 	 * @param hql
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return int
 	 *
 	 */
 	public int executeHql(String hql);
@@ -54,11 +50,7 @@ public interface CRUDDao {
 	 * 
 	 * @param hql
 	 * @param params
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return int
 	 *
 	 */
 	public int executeHql(String hql, Map<String, Object> params);
@@ -68,12 +60,8 @@ public interface CRUDDao {
 	 * 执行insert、update sql语句
 	 * 
 	 * @param sql
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
-	 *
+	 * @return int
+	 * 
 	 */
 	public int executeSql(String sql);
 
@@ -83,11 +71,7 @@ public interface CRUDDao {
 	 * 
 	 * @param sql
 	 * @param params
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return int
 	 *
 	 */
 	public int executeSql(String sql, Map<String, Object> params);
@@ -97,11 +81,7 @@ public interface CRUDDao {
 	 * 根据sql获取数量
 	 * 
 	 * @param sql
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return long
 	 *
 	 */
 	public long queryCountWithSql(String sql);
@@ -112,81 +92,61 @@ public interface CRUDDao {
 	 * 
 	 * @param sql
 	 * @param params
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return long
 	 *
 	 */
 	public long queryCountWithSql(String sql, Map<String, Object> params);
 
 	/**
-	 * 执行sql语句返回list<map>结构
+	 * 执行sql语句返回list结构
 	 *
 	 * @param sql
-	 * @return
-	 * @author Caratacus
-	 * @date 2015年12月1日 上午9:59:26
-	 * @version 1.0
+	 * @return List<?
+*
 	 */
-	public List queryListWithSql(String sql);
+	public List<?> queryListWithSql(String sql);
 
 	/**
 	 * 执行sql语句返回map结构
 	 *
 	 * @param sql
-	 * @return
-	 * @author Caratacus
-	 * @date 2015年12月1日 上午9:59:53
-	 * @version 1.0
+	 * @return Map<?,?>
+	 *
 	 */
-	public Map queryMapWithSql(String sql);
+	public Map<?, ?> queryMapWithSql(String sql);
 
 	/**
 	 * 执行sql语句返回list<map>结构 带参数
 	 *
 	 * @param sql
 	 * @param args
-	 * @return
-	 * @author Caratacus
-	 * @date 2015年12月1日 上午9:59:56
-	 * @version 1.0
+	 * @return List<?>
 	 */
-	public List queryListWithSql(String sql, Map<String, Object> args);
+	public List<?> queryListWithSql(String sql, Map<String, Object> args);
 
 	/**
 	 * 执行sql语句返回list<map>结构 带参数(分页)
 	 *
 	 * @param sql
 	 * @param args
-	 * @return
-	 * @author Caratacus
-	 * @date 2015年12月1日 上午9:59:56
-	 * @version 1.0
+	 * @return List<?>
 	 */
-	public List queryListWithSql(String sql, Map<String, Object> args, int page, int rows);
+	public List<?> queryListWithSql(String sql, Map<String, Object> args, int page, int rows);
 
 	/**
 	 * 执行sql语句返回map结构 带参数
 	 *
 	 * @param sql
 	 * @param args
-	 * @return
-	 * @author Caratacus
-	 * @date 2015年12月1日 上午10:00:00
-	 * @version 1.0
+	 * @return Map<?,?>
 	 */
-	public Map queryMapWithSql(String sql, Map<String, Object> args);
+	public Map<?, ?> queryMapWithSql(String sql, Map<String, Object> args);
 
 	/**
 	 * 执行修改操作
 	 *
 	 * @param sql
-	 * @return
-	 * @author Caratacus
-	 * @date 2015年12月1日 下午5:10:26
-	 * @version 1.0
+	 * @return int
 	 */
 	public int executeSqlUpdate(String sql);
 
@@ -195,10 +155,7 @@ public interface CRUDDao {
 	 *
 	 * @param sql
 	 * @param args
-	 * @return
-	 * @author Caratacus
-	 * @date 2015年12月1日 下午5:10:41
-	 * @version 1.0
+	 * @return int
 	 */
 	public int executeSqlUpdate(String sql, Map<String, Object> args);
 
@@ -207,34 +164,25 @@ public interface CRUDDao {
 	 *
 	 * @param sql
 	 * @param args
-	 * @return
-	 * @author Caratacus
-	 * @date 2015年12月1日 上午9:59:56
-	 * @version 1.0
+	 * @return List<?>
 	 */
-	public List queryListWithSql(String sql, Object[] args);
+	public List<?> queryListWithSql(String sql, Object[] args);
 
 	/**
 	 * 执行sql语句返回map结构 带参数
 	 *
 	 * @param sql
 	 * @param args
-	 * @return
-	 * @author Caratacus
-	 * @date 2015年12月1日 上午10:00:00
-	 * @version 1.0
+	 * @return Map<?,?>
 	 */
-	public Map queryMapWithSql(String sql, Object[] args);
+	public Map<?, ?> queryMapWithSql(String sql, Object[] args);
 
 	/**
 	 * 执行修改操作 带参数
 	 *
 	 * @param sql
 	 * @param args
-	 * @return
-	 * @author Caratacus
-	 * @date 2015年12月1日 下午5:10:41
-	 * @version 1.0
+	 * @return int
 	 */
 	public int executeSqlUpdate(String sql, Object[] args);
 
@@ -243,14 +191,10 @@ public interface CRUDDao {
 	 * 根据class生成Hql 执行
 	 * 
 	 * @param clazz
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return List<?>
 	 * 
 	 */
-	public List queryListWithHql(Class clazz);
+	public List<?> queryListWithHql(Class clazz);
 
 	/**
 	 *
@@ -259,27 +203,19 @@ public interface CRUDDao {
 	 * @param clazz
 	 * @param property
 	 * @param value
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return List<?>
 	 *
 	 */
-	public List queryListWithHql(Class clazz, String property, Object value);
+	public List<?> queryListWithHql(Class clazz, String property, Object value);
 
 	/**
 	 *
-	 * 根据class生成Hql 执行 (可以强转为需要的对象)
+	 * 根据class生成Hql执行 (可强转为需要的对象)
 	 * 
 	 * @param clazz
 	 * @param property
 	 * @param value
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return Object
 	 *
 	 */
 	public Object queryMapWithHql(Class clazz, String property, Object value);
@@ -290,13 +226,10 @@ public interface CRUDDao {
 	 * 
 	 * @param hql
 	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return List<?>
 	 *
 	 */
-	public List queryListWithHql(String hql);
+	public List<?> queryListWithHql(String hql);
 
 	/**
 	 *
@@ -305,54 +238,41 @@ public interface CRUDDao {
 	 * @param hql
 	 * @param page
 	 * @param rows
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return List<?>
 	 *
 	 */
-	public List queryListWithHql(String hql, int page, int rows);
+	public List<?> queryListWithHql(String hql, int page, int rows);
 
 	/**
 	 *
-	 * 根据class生成Hql 执行
+	 * 根据class生成Hql执行
 	 * 
 	 * @param clazz
 	 * @param property
 	 * @param value
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return List<?>
 	 *
 	 */
-	public List queryListWithHql(Class clazz, String[] property, Object... value);
+	public List<?> queryListWithHql(Class clazz, String[] property, Object... value);
 
 	/**
 	 *
-	 * 根据class生成Hql 执行
+	 * 根据class生成Hql执行
 	 * 
 	 * @param clazz
 	 * @param map
-	 * @author Caratacus
-	 * @date 2016/4/29 0029
-	 * @return
-	 * @throws
-	 * @version 1.0
+	 * @return List<?>
 	 *
 	 */
-	public List queryListWithHql(Class clazz, Map<String, Object> map);
+	public List<?> queryListWithHql(Class clazz, Map<String, Object> map);
 
 	/**
-	 * 执行sql语句返回list<map>结构 (分页)
-	 *
+	 * 执行sql语句返回list结构 (分页)
+	 * 
 	 * @param sql
+	 * @param page
+	 * @param rows
 	 * @return
-	 * @author Caratacus
-	 * @date 2015年12月1日 上午9:59:26
-	 * @version 1.0
 	 */
-	public List queryListWithSql(String sql, int page, int rows);
+	public List<?> queryListWithSql(String sql, int page, int rows);
 }

@@ -1,7 +1,12 @@
 package com.app.hibernate.persist.model;
 
 /**
- * Created by Caratacus on 2016/9/3 0003.
+ * <p>
+ * AppTestModel
+ * </p>
+ *
+ * @author Caratacus
+ * @date 2016-10-14
  */
 public class AppTestModel {
 	private Integer id;

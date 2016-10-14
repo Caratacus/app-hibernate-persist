@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>app-persist</name>
-    <description>app-persist is an enhanced version of wanxue App.</description>
+    <description>Based on hibernate simple package.</description>
     <url>http://maven.apache.org</url>
 
     <licenses>
@@ -22,7 +22,7 @@
     <developers>
         <developer>
             <name>Caratacus</name>
-            <email>chenxing@wanxue.com</email>
+            <email>caratacus@sina.com</email>
         </developer>
     </developers>
 
@@ -39,7 +39,7 @@
         <!-- myself -->
         <app.app-tools.version>1.2.7.RELEASE</app.app-tools.version>
         <!-- dependency -->
-        <springframework.version>4.3.2.RELEASE</springframework.version>
+        <springframework.version>4.3.3.RELEASE</springframework.version>
         <hibernate.version>5.1.0.Final</hibernate.version>
         <junit.version>4.12</junit.version>
         <!--maven plugin-->

@@ -20,7 +20,14 @@ import java.util.Map;
 
 import static com.app.common.Logis.fail;
 
-@SuppressWarnings("unchecked")
+/**
+ * <p>
+ * HibernateDao接口实现
+ * </p>
+ *
+ * @author Caratacus
+ * @date 2016-10-14
+ */
 @Repository
 public class HibernateDaoImpl<T> implements HibernateDao<T> {
 

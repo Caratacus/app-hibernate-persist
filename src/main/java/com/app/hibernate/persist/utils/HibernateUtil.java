@@ -13,11 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * sql工具
+ * <p>
+ * HibernateUtil
+ * </p>
  *
  * @author Caratacus
- * @version 1.0
- * @date 2016/9/1 0024
+ * @date 2016-10-14
  */
 public class HibernateUtil {
 	private static final Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
@@ -29,10 +30,6 @@ public class HibernateUtil {
 	 *
 	 * @param clazz
 	 * @return String
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static String getListHql(Class clazz) {
 		return getListHql(clazz, Logis.EMPTY_MAP);
@@ -42,10 +39,7 @@ public class HibernateUtil {
 	 * BASE LIST HQL
 	 *
 	 * @param clazz
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
+	 * @return StringBuilder
 	 */
 	private static StringBuilder getBaseListHql(Class clazz) {
 		return getBaseHql(clazz, BASE_LIST);
@@ -55,10 +49,7 @@ public class HibernateUtil {
 	 * 基本的hql
 	 *
 	 * @param clazz
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
+	 * @return StringBuilder
 	 */
 	private static StringBuilder getBaseHql(Class clazz, String baseHql) {
 		StringBuilder builder = new StringBuilder(baseHql);
@@ -72,10 +63,6 @@ public class HibernateUtil {
 	 * @param order
 	 * @param clazz
 	 * @return String
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static String getListHql(String order, Class clazz) {
 		return getListHql(order, clazz, Logis.EMPTY_MAP);
@@ -87,10 +74,6 @@ public class HibernateUtil {
 	 * @param clazz
 	 * @param property
 	 * @return String
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static String getListHql(Class clazz, String... property) {
 		return getListHql(Logis.EMPTY_STRING, clazz, property);
@@ -102,10 +85,6 @@ public class HibernateUtil {
 	 * @param clazz
 	 * @param params
 	 * @return String
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static String getListHql(Class clazz, Map<String, Object> params) {
 		return getListHql(Logis.EMPTY_STRING, clazz, params);
@@ -118,10 +97,6 @@ public class HibernateUtil {
 	 * @param clazz
 	 * @param property
 	 * @return String
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static String getListHql(String order, Class clazz, String... property) {
 		StringBuilder builder = getBaseListHql(clazz);
@@ -136,10 +111,6 @@ public class HibernateUtil {
 	 * @param builder
 	 * @param property
 	 * @return
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	private static void getWhere(StringBuilder builder, String... property) {
 		if (Logis.isNoneBlank(property)) {
@@ -162,10 +133,6 @@ public class HibernateUtil {
 	 * @param clazz
 	 * @param params
 	 * @return String
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static String getListHql(String order, Class clazz, Map<String, Object> params) {
 		StringBuilder builder = getBaseListHql(clazz);
@@ -180,10 +147,6 @@ public class HibernateUtil {
 	 * @param builder
 	 * @param builder
 	 * @return
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	private static void getOrderby(String order, StringBuilder builder) {
 		if (Logis.isNotBlank(order)) {
@@ -197,10 +160,6 @@ public class HibernateUtil {
 	 *
 	 * @param clazz
 	 * @return String
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static String getCountHql(Class clazz) {
 		return getCountHql(clazz, Logis.EMPTY_MAP);
@@ -211,10 +170,6 @@ public class HibernateUtil {
 	 *
 	 * @param clazz
 	 * @return StringBuilder
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/3 0003
-	 * @version 1.0
 	 */
 	private static StringBuilder getBaseCountHql(Class clazz) {
 		return getBaseHql(clazz, BASE_COUNT);
@@ -226,10 +181,6 @@ public class HibernateUtil {
 	 * @param clazz
 	 * @param property
 	 * @return String
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static String getCountHql(Class clazz, String... property) {
 		StringBuilder builder = getBaseCountHql(clazz);
@@ -243,10 +194,6 @@ public class HibernateUtil {
 	 * @param clazz
 	 * @param params
 	 * @return String
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static String getCountHql(Class clazz, Map<String, Object> params) {
 		StringBuilder builder = getBaseCountHql(clazz);
@@ -260,10 +207,6 @@ public class HibernateUtil {
 	 * @param builder
 	 * @param params
 	 * @return
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	private static void getWhere(StringBuilder builder, Map<String, Object> params) {
 		if (MapUtils.isNotEmpty(params)) {
@@ -289,10 +232,6 @@ public class HibernateUtil {
 	 * @param builder
 	 * @param index
 	 * @return
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	private static void setByArray(StringBuilder builder, int index) {
 		builder.append(" = ?");
@@ -305,10 +244,6 @@ public class HibernateUtil {
 	 * @param builder
 	 * @param index
 	 * @return
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	private static void setAndByArray(StringBuilder builder, int index) {
 		builder.append(" = ? AND ");
@@ -322,10 +257,6 @@ public class HibernateUtil {
 	 * @param property
 	 * @param object
 	 * @return
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	private static void setByMap(StringBuilder builder, String property, Object object) {
 		if (object.getClass().isArray() || object instanceof List)
@@ -343,10 +274,6 @@ public class HibernateUtil {
 	 * @param property
 	 * @param object
 	 * @return
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	private static void setAndByMap(StringBuilder builder, String property, Object object) {
 		if (object.getClass().isArray() || object instanceof List)
@@ -365,10 +292,6 @@ public class HibernateUtil {
 	 * @param key
 	 * @param obj
 	 * @return
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static void setParams(Query query, String key, Object obj) {
 		if (obj.getClass().isArray()) {
@@ -387,10 +310,6 @@ public class HibernateUtil {
 	 * @param rows
 	 * @param query
 	 * @return
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static void setPage(int page, int rows, Query query) {
 		if (0 != rows) {
@@ -406,10 +325,6 @@ public class HibernateUtil {
 	 * @param sql
 	 * @param factory
 	 * @return Query
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static Query getSqlQuery(String sql, SessionFactory factory) {
 		logger.info("Execute SQL：" + sql);
@@ -422,10 +337,6 @@ public class HibernateUtil {
 	 * @param hql
 	 * @param factory
 	 * @return Query
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static Query getHqlQuery(String hql, SessionFactory factory) {
 		logger.info("Execute HQL：" + hql);
@@ -437,10 +348,6 @@ public class HibernateUtil {
 	 *
 	 * @param factory
 	 * @return Session
-	 * @throws
-	 * @author Caratacus
-	 * @date 2016/9/2 0002
-	 * @version 1.0
 	 */
 	public static Session getCurrentSession(SessionFactory factory) {
 		return factory.getCurrentSession();
