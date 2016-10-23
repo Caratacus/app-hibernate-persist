@@ -1,4 +1,4 @@
-package com.app.hibernate.persist.dao;
+package com.app.hibernate.framework.dao;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,13 +6,13 @@ import java.util.Map;
 
 /**
  * <p>
- * HibernateDao接口
+ * IDao接口
  * </p>
  *
  * @author Caratacus
- * @date 2016-10-14
+ * @date 2016-10-23
  */
-public interface HibernateDao<T> {
+public interface IDao<T> {
     /**
      * 保存方法
      *

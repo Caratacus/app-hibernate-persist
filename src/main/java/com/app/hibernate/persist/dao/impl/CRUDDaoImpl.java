@@ -8,16 +8,13 @@ import com.app.hibernate.persist.utils.HibernateUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
-
-import static com.app.common.Logis.fail;
+import java.util.logging.Logger;
 
 /**
  * <p>
@@ -27,10 +24,10 @@ import static com.app.common.Logis.fail;
  * @author Caratacus
  * @date 2016-10-14
  */
-@Repository("crudDao")
+@Repository
 public class CRUDDaoImpl implements CRUDDao {
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	protected static final Logger logger = Logger.getLogger("CRUDDaoImpl");
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -127,7 +124,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			}
 			resultMap = (Map) query.uniqueResult();
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return resultMap;
 	}
@@ -164,7 +161,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			HibernateUtil.setPage(page, rows, query);
 			list = query.list();
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return list;
 	}
@@ -195,7 +192,7 @@ public class CRUDDaoImpl implements CRUDDao {
 				}
 				resultCount = query.executeUpdate();
 			} catch (Exception e) {
-				logger.error(fail(), e);
+				logger.warning("Warn: Unexpected exception.  Cause:" + e);
 			}
 		}
 		return resultCount;
@@ -216,7 +213,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			}
 			list = query.list();
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return list;
 	}
@@ -236,7 +233,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			}
 			resultMap = (Map) query.uniqueResult();
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return resultMap;
 	}
@@ -255,7 +252,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			}
 			resultCount = query.executeUpdate();
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return resultCount;
 	}
@@ -279,7 +276,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			HibernateUtil.setParams(query, "0", value);
 			object = query.uniqueResult();
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return object;
 	}
@@ -298,7 +295,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			list = query.list();
 
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return list;
 
@@ -316,7 +313,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			}
 			list = query.list();
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return list;
 
@@ -338,7 +335,7 @@ public class CRUDDaoImpl implements CRUDDao {
 			list = query.list();
 
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return list;
 	}

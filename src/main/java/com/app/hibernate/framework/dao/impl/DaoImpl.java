@@ -1,37 +1,33 @@
-package com.app.hibernate.persist.dao.impl;
+package com.app.hibernate.framework.dao.impl;
 
 import com.app.common.CollectionUtil;
 import com.app.common.Logis;
 import com.app.common.MapUtils;
-import com.app.hibernate.persist.dao.HibernateDao;
+import com.app.hibernate.framework.dao.IDao;
 import com.app.hibernate.persist.exceptions.AppHibernateException;
 import com.app.hibernate.persist.utils.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-
-import static com.app.common.Logis.fail;
+import java.util.logging.Logger;
 
 /**
  * <p>
- * HibernateDao接口实现
+ * IDao接口实现类
  * </p>
  *
  * @author Caratacus
- * @date 2016-10-14
+ * @date 2016-10-23
  */
 @Repository
-public class HibernateDaoImpl<T> implements HibernateDao<T> {
-
-	private Logger logger = LoggerFactory.getLogger(getClass());
+public class DaoImpl<T> implements IDao<T> {
+	protected static final Logger logger = Logger.getLogger("DaoImpl");
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -70,7 +66,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 			}
 			t = (T) query.uniqueResult();
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return t;
 
@@ -118,7 +114,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 			HibernateUtil.setPage(page, rows, query);
 			list = query.list();
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return list;
 
@@ -206,7 +202,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 			HibernateUtil.setPage(page, rows, query);
 			list = query.list();
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return list;
 	}
@@ -252,7 +248,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 			HibernateUtil.setPage(page, rows, query);
 			list = query.list();
 		} catch (Exception e) {
-			logger.error(fail(), e);
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
 		}
 		return list;
 
@@ -265,7 +261,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
 	/**
 	 * Query设置Map参数
-	 * 
+	 *
 	 * @param params
 	 * @param query
 	 * @return

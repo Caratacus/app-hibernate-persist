@@ -5,12 +5,11 @@ import com.app.common.MapUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * <p>
@@ -21,7 +20,7 @@ import java.util.Map;
  * @date 2016-10-14
  */
 public class HibernateUtil {
-	private static final Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
+	protected static final Logger logger = Logger.getLogger("HibernateUtil");
 	private static final String BASE_COUNT = "SELECT COUNT(0) FROM ";
 	private static final String BASE_LIST = " FROM ";
 
