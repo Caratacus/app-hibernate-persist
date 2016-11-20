@@ -1,4 +1,7 @@
-package com.app.hibernate.framework.dao;
+package com.app.hibernate.persist.dao;
+
+import com.app.hibernate.persist.page.Page;
+import com.app.hibernate.persist.query.Wrapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -323,5 +326,12 @@ public interface IDao<T> {
      * @return List<T>
      */
     public List<T> query(Class<T> clazz, int page, int rows, Map<String, Object> map, String order);
+
+    public Page<?> queryListWithSql(Class clazz, Wrapper wrapper, Page page);
+
+    public List<?> queryListWithSql(Class clazz, Wrapper wrapper);
+
+    public long queryCountWithSql(Class clazz, Wrapper wrapper);
+
 
 }

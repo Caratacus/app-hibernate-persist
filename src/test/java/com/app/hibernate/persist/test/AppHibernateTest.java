@@ -1,7 +1,7 @@
 package com.app.hibernate.persist.test;
 
 import com.app.hibernate.persist.model.AppTestModel;
-import com.app.hibernate.persist.utils.HibernateUtil;
+import com.app.hibernate.persist.utils.HibernateUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class AppHibernateTest {
 	 */
 	@Test
 	public void test1() throws Exception {
-		String hql = HibernateUtil.getListHql(AppTestModel.class);
+		String hql = HibernateUtils.getListHql(AppTestModel.class);
 		System.out.println(hql);
 		Assert.assertEquals(" FROM AppTestModel", hql);
 	}
@@ -42,7 +42,7 @@ public class AppHibernateTest {
 		map.put("key2", "key2");
 		map.put("key3", new String[] { "c1", "c2" });
 		map.put("key4", list);
-		String hql = HibernateUtil.getCountHql(AppTestModel.class, map);
+		String hql = HibernateUtils.getCountHql(AppTestModel.class, map);
 		System.out.println(hql);
 		Assert.assertEquals(
 				"SELECT COUNT(0) FROM AppTestModel WHERE key1 = :key1 AND key2 = :key2 AND key3 IN :key3 AND key4 IN :key4", hql);

@@ -1,7 +1,9 @@
 package com.app.hibernate.framework.service;
 
-import com.app.hibernate.framework.entity.BasePage;
+import com.app.hibernate.persist.page.BasePage;
+import com.app.hibernate.persist.page.Page;
 import com.app.hibernate.framework.entity.PrimaryKey;
+import com.app.hibernate.persist.query.Wrapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -362,4 +364,11 @@ public interface IService<V extends PrimaryKey> {
      * @return
      */
     public BasePage<V> findPage(BasePage<V> page, Map<String, Object> map);
+
+    public Page<?> queryListWithSql(Wrapper wrapper, Page page);
+
+    public List<?> queryListWithSql(Wrapper wrapper);
+
+    public long queryCountWithSql(Wrapper wrapper);
+
 }

@@ -1,10 +1,13 @@
 package com.app.hibernate.framework.service.impl;
 
 import com.app.common.reflection.ReflectionUtils;
-import com.app.hibernate.framework.dao.IDao;
-import com.app.hibernate.framework.entity.BasePage;
 import com.app.hibernate.framework.entity.PrimaryKey;
+import com.app.hibernate.framework.service.DaoService;
 import com.app.hibernate.framework.service.IService;
+import com.app.hibernate.persist.dao.IDao;
+import com.app.hibernate.persist.page.BasePage;
+import com.app.hibernate.persist.page.Page;
+import com.app.hibernate.persist.query.Wrapper;
 import com.dexcoder.commons.bean.BeanConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,8 +28,10 @@ public class ServiceImpl<T extends PrimaryKey, V extends PrimaryKey> implements 
 	protected Class<T> tClass = ReflectionUtils.getSuperClassGenricType(getClass(), 0);
 	// 反射VO泛型
 	protected Class<V> vClass = ReflectionUtils.getSuperClassGenricType(getClass(), 1);
-	@Autowired
-	protected IDao<T> baseDao;
+    @Autowired
+    protected IDao<T> baseDao;
+    @Autowired
+    protected DaoService daoService;
 
 	@Override
 	public V save(V vo) {
@@ -233,4 +238,17 @@ public class ServiceImpl<T extends PrimaryKey, V extends PrimaryKey> implements 
 		page.setRows(rows);
 		return page;
 	}
+
+	public Page<?> queryListWithSql(Wrapper wrapper, Page page) {
+		return baseDao.queryListWithSql(tClass, wrapper, page);
+	}
+
+	public List<?> queryListWithSql(Wrapper wrapper) {
+		return baseDao.queryListWithSql(tClass, wrapper);
+	}
+
+	public long queryCountWithSql(Wrapper wrapper) {
+		return baseDao.queryCountWithSql(tClass, wrapper);
+	}
+
 }

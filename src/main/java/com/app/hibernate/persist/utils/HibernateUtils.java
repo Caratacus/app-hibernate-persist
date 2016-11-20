@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * @author Caratacus
  * @date 2016-10-14
  */
-public class HibernateUtil {
+public class HibernateUtils {
 	protected static final Logger logger = Logger.getLogger("HibernateUtil");
 	private static final String BASE_COUNT = "SELECT COUNT(0) FROM ";
 	private static final String BASE_LIST = " FROM ";
@@ -326,7 +326,7 @@ public class HibernateUtil {
 	 * @return Query
 	 */
 	public static Query getSqlQuery(String sql, SessionFactory factory) {
-		logger.info("Execute SQL：" + sql);
+		System.err.println("Execute SQL：\n" + SqlUtils.sqlFormat(sql, true));
 		return getCurrentSession(factory).createSQLQuery(sql);
 	}
 
@@ -338,7 +338,7 @@ public class HibernateUtil {
 	 * @return Query
 	 */
 	public static Query getHqlQuery(String hql, SessionFactory factory) {
-		logger.info("Execute HQL：" + hql);
+		System.err.println("Execute HQL：\n" + SqlUtils.sqlFormat(hql, true));
 		return getCurrentSession(factory).createQuery(hql);
 	}
 

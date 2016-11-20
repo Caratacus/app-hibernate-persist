@@ -1,11 +1,15 @@
-package com.app.hibernate.framework.dao.impl;
+package com.app.hibernate.persist.dao.impl;
 
 import com.app.common.CollectionUtil;
 import com.app.common.Logis;
 import com.app.common.MapUtils;
-import com.app.hibernate.framework.dao.IDao;
+import com.app.hibernate.persist.dao.IDao;
 import com.app.hibernate.persist.exceptions.AppHibernateException;
-import com.app.hibernate.persist.utils.HibernateUtil;
+import com.app.hibernate.persist.page.CountOptimize;
+import com.app.hibernate.persist.page.Page;
+import com.app.hibernate.persist.query.Wrapper;
+import com.app.hibernate.persist.utils.HibernateUtils;
+import com.app.hibernate.persist.utils.SqlUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -28,14 +33,14 @@ import java.util.logging.Logger;
 @Repository
 public class DaoImpl<T> implements IDao<T> {
 	protected static final Logger logger = Logger.getLogger("DaoImpl");
-	@Autowired
+    @Autowired
 	private SessionFactory sessionFactory;
 
-	@Override
+    @Override
 	public T save(T t) {
 		if (null == t)
 			throw new AppHibernateException("execute Save Fail! Param is Empty !");
-		HibernateUtil.getCurrentSession(sessionFactory).save(t);
+		HibernateUtils.getCurrentSession(sessionFactory).save(t);
 		return t;
 	}
 
@@ -43,7 +48,7 @@ public class DaoImpl<T> implements IDao<T> {
 	public T get(Class<T> clazz, Serializable id) {
 		if (null == id)
 			throw new AppHibernateException("execute Get Fail! Param is Empty !");
-		return (T) HibernateUtil.getCurrentSession(sessionFactory).get(clazz, id);
+		return (T) HibernateUtils.getCurrentSession(sessionFactory).get(clazz, id);
 	}
 
 	@Override
@@ -57,11 +62,11 @@ public class DaoImpl<T> implements IDao<T> {
 			throw new AppHibernateException("execute Get Fail! Param is Empty !");
 		T t = null;
 		try {
-			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
+			Query query = HibernateUtils.getHqlQuery(hql, sessionFactory);
 			if (MapUtils.isNotEmpty(params)) {
 				for (String key : params.keySet()) {
 					Object obj = params.get(key);
-					HibernateUtil.setParams(query, key, obj);
+					HibernateUtils.setParams(query, key, obj);
 				}
 			}
 			t = (T) query.uniqueResult();
@@ -76,21 +81,21 @@ public class DaoImpl<T> implements IDao<T> {
 	public void delete(T t) {
 		if (null == t)
 			throw new AppHibernateException("execute Delete! Param is Empty !");
-		HibernateUtil.getCurrentSession(sessionFactory).delete(t);
+		HibernateUtils.getCurrentSession(sessionFactory).delete(t);
 	}
 
 	@Override
 	public void update(T t) {
 		if (null == t)
 			throw new AppHibernateException("execute Update! Param is Empty !");
-		HibernateUtil.getCurrentSession(sessionFactory).merge(t);
+		HibernateUtils.getCurrentSession(sessionFactory).merge(t);
 	}
 
 	@Override
 	public void saveOrUpdate(T t) {
 		if (null == t)
 			throw new AppHibernateException("execute SaveOrUpdate! Param is Empty !");
-		HibernateUtil.getCurrentSession(sessionFactory).saveOrUpdate(t);
+		HibernateUtils.getCurrentSession(sessionFactory).saveOrUpdate(t);
 	}
 
 	@Override
@@ -109,9 +114,9 @@ public class DaoImpl<T> implements IDao<T> {
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		List<T> list = Logis.emptyList();
 		try {
-			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
+			Query query = HibernateUtils.getHqlQuery(hql, sessionFactory);
 			setParamMap(params, query);
-			HibernateUtil.setPage(page, rows, query);
+			HibernateUtils.setPage(page, rows, query);
 			list = query.list();
 		} catch (Exception e) {
 			logger.warning("Warn: Unexpected exception.  Cause:" + e);
@@ -129,7 +134,7 @@ public class DaoImpl<T> implements IDao<T> {
 	public void insertWithBatch(List<T> list) {
 		if (CollectionUtil.isEmpty(list))
 			throw new AppHibernateException("execute BatchInsert Fail! Param is Empty !");
-		Session session = HibernateUtil.getCurrentSession(sessionFactory);
+		Session session = HibernateUtils.getCurrentSession(sessionFactory);
 		for (int i = 0; i < list.size(); i++) {
 			session.save(list.get(i));
 			if (i % 30 == 0) {
@@ -143,7 +148,7 @@ public class DaoImpl<T> implements IDao<T> {
 	public void updateWithBatch(List<T> list) {
 		if (CollectionUtil.isEmpty(list))
 			throw new AppHibernateException("execute BatchUpdate Fail! Param is Empty !");
-		Session session = HibernateUtil.getCurrentSession(sessionFactory);
+		Session session = HibernateUtils.getCurrentSession(sessionFactory);
 		for (int i = 0; i < list.size(); i++) {
 			session.update(list.get(i));
 			if (i % 30 == 0) {
@@ -192,14 +197,14 @@ public class DaoImpl<T> implements IDao<T> {
 	public List<T> query(Class<T> clazz, int page, int rows, String order, String[] property, Object... value) {
 		List<T> list = Logis.emptyList();
 		try {
-			String hql = HibernateUtil.getListHql(order, clazz, property);
-			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
+			String hql = HibernateUtils.getListHql(order, clazz, property);
+			Query query = HibernateUtils.getHqlQuery(hql, sessionFactory);
 			if (null != value) {
 				for (int i = 0; i < value.length; i++) {
-					HibernateUtil.setParams(query, Logis.getString(i), value[i]);
+					HibernateUtils.setParams(query, Logis.getString(i), value[i]);
 				}
 			}
-			HibernateUtil.setPage(page, rows, query);
+			HibernateUtils.setPage(page, rows, query);
 			list = query.list();
 		} catch (Exception e) {
 			logger.warning("Warn: Unexpected exception.  Cause:" + e);
@@ -242,10 +247,10 @@ public class DaoImpl<T> implements IDao<T> {
 	public List<T> query(Class<T> clazz, int page, int rows, Map<String, Object> params, String order) {
 		List<T> list = Logis.emptyList();
 		try {
-			String hql = HibernateUtil.getListHql(order, clazz, params);
-			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
+			String hql = HibernateUtils.getListHql(order, clazz, params);
+			Query query = HibernateUtils.getHqlQuery(hql, sessionFactory);
 			setParamMap(params, query);
-			HibernateUtil.setPage(page, rows, query);
+			HibernateUtils.setPage(page, rows, query);
 			list = query.list();
 		} catch (Exception e) {
 			logger.warning("Warn: Unexpected exception.  Cause:" + e);
@@ -274,7 +279,7 @@ public class DaoImpl<T> implements IDao<T> {
 		if (MapUtils.isNotEmpty(params)) {
 			for (String key : params.keySet()) {
 				Object obj = params.get(key);
-				HibernateUtil.setParams(query, key, obj);
+				HibernateUtils.setParams(query, key, obj);
 			}
 		}
 	}
@@ -291,25 +296,70 @@ public class DaoImpl<T> implements IDao<T> {
 
 	@Override
 	public long count(Class clazz, String[] property, Object... value) {
-		String countHql = HibernateUtil.getCountHql(clazz, property);
-		Query query = HibernateUtil.getHqlQuery(countHql, sessionFactory);
+		String countHql = HibernateUtils.getCountHql(clazz, property);
+		Query query = HibernateUtils.getHqlQuery(countHql, sessionFactory);
 		for (int i = 0; i < value.length; i++) {
-			HibernateUtil.setParams(query, Logis.getString(i), value[i]);
+			HibernateUtils.setParams(query, Logis.getString(i), value[i]);
 		}
 		return (long) query.uniqueResult();
 	}
 
 	@Override
 	public long count(Class clazz, Map<String, Object> params) {
-		String hql = HibernateUtil.getCountHql(clazz, params);
-		Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
+		String hql = HibernateUtils.getCountHql(clazz, params);
+		Query query = HibernateUtils.getHqlQuery(hql, sessionFactory);
 		if (MapUtils.isNotEmpty(params)) {
 			for (String key : params.keySet()) {
 				Object obj = params.get(key);
-				HibernateUtil.setParams(query, key, obj);
+				HibernateUtils.setParams(query, key, obj);
 			}
 		}
 		return (long) query.uniqueResult();
 
 	}
+
+	@Override
+	public Page<?> queryListWithSql(Class clazz, Wrapper wrapper, Page page) {
+		try {
+			String sql = SqlUtils.sqlList(clazz, wrapper, page);
+			Query query = HibernateUtils.getSqlQuery(sql, sessionFactory);
+			HibernateUtils.setPage(page.getCurrent(), page.getSize(), query);
+			page.setRecords(query.list());
+			CountOptimize countOptimize = SqlUtils.getCountOptimize(sql, page.isOptimizeCount());
+			Query countQuery = HibernateUtils.getSqlQuery(countOptimize.getCountSQL(), sessionFactory);
+			BigInteger bigInteger = (BigInteger) countQuery.uniqueResult();
+			page.setTotal(bigInteger.intValue());
+		} catch (Exception e) {
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
+		}
+		return page;
+	}
+
+	@Override
+	public List<?> queryListWithSql(Class clazz, Wrapper wrapper) {
+		List list = Logis.EMPTY_LIST;
+		try {
+			String sql = SqlUtils.sqlList(clazz, wrapper, null);
+			Query query = HibernateUtils.getSqlQuery(sql, sessionFactory);
+			list = query.list();
+		} catch (Exception e) {
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
+		}
+		return list;
+	}
+
+	@Override
+	public long queryCountWithSql(Class clazz, Wrapper wrapper) {
+		long count = 0;
+		try {
+			String sql = SqlUtils.sqlCount(clazz, wrapper);
+			Query query = HibernateUtils.getSqlQuery(sql, sessionFactory);
+			BigInteger bigInteger = (BigInteger) query.uniqueResult();
+			count = bigInteger.longValue();
+		} catch (Exception e) {
+			logger.warning("Warn: Unexpected exception.  Cause:" + e);
+		}
+		return count;
+	}
+
 }

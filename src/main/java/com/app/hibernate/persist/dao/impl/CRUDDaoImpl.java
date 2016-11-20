@@ -4,7 +4,7 @@ import com.app.common.Logis;
 import com.app.common.MapUtils;
 import com.app.hibernate.persist.dao.CRUDDao;
 import com.app.hibernate.persist.exceptions.AppHibernateException;
-import com.app.hibernate.persist.utils.HibernateUtil;
+import com.app.hibernate.persist.utils.HibernateUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -20,7 +20,6 @@ import java.util.logging.Logger;
  * <p>
  * CRUDDao接口实现
  * </p>
- *
  * @author Caratacus
  * @date 2016-10-14
  */
@@ -31,6 +30,10 @@ public class CRUDDaoImpl implements CRUDDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	public CRUDDaoImpl(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
 	@Override
 	public long queryCountWithHql(String hql) {
 		return queryCountWithHql(hql, Logis.EMPTY_MAP);
@@ -40,11 +43,11 @@ public class CRUDDaoImpl implements CRUDDao {
 	public long queryCountWithHql(String hql, Map<String, Object> params) {
 		if (Logis.isBlank(hql))
 			throw new AppHibernateException("Query Count Fail! Param is Empty !");
-		Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
+		Query query = HibernateUtils.getHqlQuery(hql, sessionFactory);
 		if (MapUtils.isNotEmpty(params)) {
 			for (String key : params.keySet()) {
 				Object obj = params.get(key);
-				HibernateUtil.setParams(query, key, obj);
+				HibernateUtils.setParams(query, key, obj);
 			}
 		}
 		return (long) query.uniqueResult();
@@ -59,11 +62,11 @@ public class CRUDDaoImpl implements CRUDDao {
 	public int executeHql(String hql, Map<String, Object> params) {
 		if (Logis.isBlank(hql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
-		Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
+		Query query = HibernateUtils.getHqlQuery(hql, sessionFactory);
 		if (MapUtils.isNotEmpty(params)) {
 			for (String key : params.keySet()) {
 				Object obj = params.get(key);
-				HibernateUtil.setParams(query, key, obj);
+				HibernateUtils.setParams(query, key, obj);
 			}
 		}
 		return query.executeUpdate();
@@ -78,11 +81,11 @@ public class CRUDDaoImpl implements CRUDDao {
 	public int executeSql(String sql, Map<String, Object> params) {
 		if (Logis.isBlank(sql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
-		Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
+		Query query = HibernateUtils.getSqlQuery(sql, sessionFactory);
 		if (MapUtils.isNotEmpty(params)) {
 			for (String key : params.keySet()) {
 				Object obj = params.get(key);
-				HibernateUtil.setParams(query, key, obj);
+				HibernateUtils.setParams(query, key, obj);
 			}
 		}
 		return query.executeUpdate();
@@ -97,11 +100,11 @@ public class CRUDDaoImpl implements CRUDDao {
 	public long queryCountWithSql(String sql, Map<String, Object> params) {
 		if (Logis.isBlank(sql))
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
-		Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
+		Query query = HibernateUtils.getSqlQuery(sql, sessionFactory);
 		if (MapUtils.isNotEmpty(params)) {
 			for (String key : params.keySet()) {
 				Object obj = params.get(key);
-				HibernateUtil.setParams(query, key, obj);
+				HibernateUtils.setParams(query, key, obj);
 			}
 		}
 		BigInteger count = (BigInteger) query.uniqueResult();
@@ -114,12 +117,12 @@ public class CRUDDaoImpl implements CRUDDao {
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		Map resultMap = Logis.EMPTY_MAP;
 		try {
-			Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
+			Query query = HibernateUtils.getSqlQuery(sql, sessionFactory);
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 			if (MapUtils.isNotEmpty(params)) {
 				for (String key : params.keySet()) {
 					Object obj = params.get(key);
-					HibernateUtil.setParams(query, key, obj);
+					HibernateUtils.setParams(query, key, obj);
 				}
 			}
 			resultMap = (Map) query.uniqueResult();
@@ -150,15 +153,15 @@ public class CRUDDaoImpl implements CRUDDao {
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		List list = Logis.EMPTY_LIST;
 		try {
-			Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
+			Query query = HibernateUtils.getSqlQuery(sql, sessionFactory);
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 			if (MapUtils.isNotEmpty(params)) {
 				for (String key : params.keySet()) {
 					Object obj = params.get(key);
-					HibernateUtil.setParams(query, key, obj);
+					HibernateUtils.setParams(query, key, obj);
 				}
 			}
-			HibernateUtil.setPage(page, rows, query);
+			HibernateUtils.setPage(page, rows, query);
 			list = query.list();
 		} catch (Exception e) {
 			logger.warning("Warn: Unexpected exception.  Cause:" + e);
@@ -183,11 +186,11 @@ public class CRUDDaoImpl implements CRUDDao {
 		int resultCount = 0;
 		if (Logis.isNotBlank(sql)) {
 			try {
-				Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
+				Query query = HibernateUtils.getSqlQuery(sql, sessionFactory);
 				if ((params != null) && !params.isEmpty()) {
 					for (String key : params.keySet()) {
 						Object obj = params.get(key);
-						HibernateUtil.setParams(query, key, obj);
+						HibernateUtils.setParams(query, key, obj);
 					}
 				}
 				resultCount = query.executeUpdate();
@@ -204,11 +207,11 @@ public class CRUDDaoImpl implements CRUDDao {
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		List list = Logis.EMPTY_LIST;
 		try {
-			Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
+			Query query = HibernateUtils.getSqlQuery(sql, sessionFactory);
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 			if (null != args) {
 				for (int i = 0; i < args.length; i++) {
-					HibernateUtil.setParams(query, Logis.getString(i), args[i]);
+					HibernateUtils.setParams(query, Logis.getString(i), args[i]);
 				}
 			}
 			list = query.list();
@@ -224,11 +227,11 @@ public class CRUDDaoImpl implements CRUDDao {
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		Map resultMap = Logis.EMPTY_MAP;
 		try {
-			Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
+			Query query = HibernateUtils.getSqlQuery(sql, sessionFactory);
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 			if (null != args) {
 				for (int i = 0; i < args.length; i++) {
-					HibernateUtil.setParams(query, Logis.getString(i), args[i]);
+					HibernateUtils.setParams(query, Logis.getString(i), args[i]);
 				}
 			}
 			resultMap = (Map) query.uniqueResult();
@@ -244,10 +247,10 @@ public class CRUDDaoImpl implements CRUDDao {
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		int resultCount = 0;
 		try {
-			Query query = HibernateUtil.getSqlQuery(sql, sessionFactory);
+			Query query = HibernateUtils.getSqlQuery(sql, sessionFactory);
 			if (null != args) {
 				for (int i = 0; i < args.length; i++) {
-					HibernateUtil.setParams(query, Logis.getString(i), args[i]);
+					HibernateUtils.setParams(query, Logis.getString(i), args[i]);
 				}
 			}
 			resultCount = query.executeUpdate();
@@ -271,9 +274,9 @@ public class CRUDDaoImpl implements CRUDDao {
 	public Object queryMapWithHql(Class clazz, String property, Object value) {
 		Object object = null;
 		try {
-			String hql = HibernateUtil.getListHql(clazz, property);
-			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
-			HibernateUtil.setParams(query, "0", value);
+			String hql = HibernateUtils.getListHql(clazz, property);
+			Query query = HibernateUtils.getHqlQuery(hql, sessionFactory);
+			HibernateUtils.setParams(query, "0", value);
 			object = query.uniqueResult();
 		} catch (Exception e) {
 			logger.warning("Warn: Unexpected exception.  Cause:" + e);
@@ -285,11 +288,11 @@ public class CRUDDaoImpl implements CRUDDao {
 	public List<?> queryListWithHql(Class clazz, String[] property, Object... value) {
 		List list = Logis.EMPTY_LIST;
 		try {
-			String hql = HibernateUtil.getListHql(clazz, property);
-			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
+			String hql = HibernateUtils.getListHql(clazz, property);
+			Query query = HibernateUtils.getHqlQuery(hql, sessionFactory);
 			if (null != value) {
 				for (int i = 0; i < value.length; i++) {
-					HibernateUtil.setParams(query, Logis.getString(i), value);
+					HibernateUtils.setParams(query, Logis.getString(i), value);
 				}
 			}
 			list = query.list();
@@ -305,11 +308,11 @@ public class CRUDDaoImpl implements CRUDDao {
 	public List<?> queryListWithHql(Class clazz, Map<String, Object> map) {
 		List list = Logis.EMPTY_LIST;
 		try {
-			String hql = HibernateUtil.getListHql(clazz, map);
-			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
+			String hql = HibernateUtils.getListHql(clazz, map);
+			Query query = HibernateUtils.getHqlQuery(hql, sessionFactory);
 			for (String key : map.keySet()) {
 				Object obj = map.get(key);
-				HibernateUtil.setParams(query, key, obj);
+				HibernateUtils.setParams(query, key, obj);
 			}
 			list = query.list();
 		} catch (Exception e) {
@@ -330,8 +333,8 @@ public class CRUDDaoImpl implements CRUDDao {
 			throw new AppHibernateException("execute Query Fail! Param is Empty !");
 		List list = Logis.EMPTY_LIST;
 		try {
-			Query query = HibernateUtil.getHqlQuery(hql, sessionFactory);
-			HibernateUtil.setPage(page, rows, query);
+			Query query = HibernateUtils.getHqlQuery(hql, sessionFactory);
+			HibernateUtils.setPage(page, rows, query);
 			list = query.list();
 
 		} catch (Exception e) {
