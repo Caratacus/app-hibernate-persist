@@ -15,8 +15,7 @@
  */
 package com.app.hibernate.persist.query;
 
-import com.app.hibernate.persist.utils.CollectionUtil;
-import com.app.hibernate.persist.utils.Logis;
+import com.app.hibernate.persist.utils.CollectionUtils;
 import com.app.hibernate.persist.utils.StringUtils;
 
 import java.text.MessageFormat;
@@ -224,7 +223,7 @@ public class SqlPlus extends AbstractSQL<SqlPlus> {
 	 *            是否为NOT IN操作
 	 */
 	private void handerIn(String column, Collection<?> value, boolean isNot) {
-		if (StringUtils.isNotBlank(column) && CollectionUtil.isNotEmpty(value)) {
+		if (StringUtils.isNotBlank(column) && CollectionUtils.isNotEmpty(value)) {
 			StringBuilder inSql = new StringBuilder();
 			inSql.append(column);
 			if (isNot) {

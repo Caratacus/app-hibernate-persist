@@ -5,7 +5,7 @@ import com.app.hibernate.persist.exceptions.AppHibernateException;
 import com.app.hibernate.persist.page.CountOptimize;
 import com.app.hibernate.persist.page.Page;
 import com.app.hibernate.persist.query.Wrapper;
-import com.app.hibernate.persist.utils.CollectionUtil;
+import com.app.hibernate.persist.utils.CollectionUtils;
 import com.app.hibernate.persist.utils.HibernateUtils;
 import com.app.hibernate.persist.utils.MapUtils;
 import com.app.hibernate.persist.utils.SqlUtils;
@@ -133,7 +133,7 @@ public class DaoImpl<T> implements IDao<T> {
 
 	@Override
 	public void insertWithBatch(List<T> list) {
-		if (CollectionUtil.isEmpty(list))
+		if (CollectionUtils.isEmpty(list))
 			throw new AppHibernateException("execute BatchInsert Fail! Param is Empty !");
 		Session session = HibernateUtils.getCurrentSession(sessionFactory);
 		for (int i = 0; i < list.size(); i++) {
@@ -147,7 +147,7 @@ public class DaoImpl<T> implements IDao<T> {
 
 	@Override
 	public void updateWithBatch(List<T> list) {
-		if (CollectionUtil.isEmpty(list))
+		if (CollectionUtils.isEmpty(list))
 			throw new AppHibernateException("execute BatchUpdate Fail! Param is Empty !");
 		Session session = HibernateUtils.getCurrentSession(sessionFactory);
 		for (int i = 0; i < list.size(); i++) {
