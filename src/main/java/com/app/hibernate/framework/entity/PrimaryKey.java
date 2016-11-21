@@ -2,7 +2,6 @@ package com.app.hibernate.framework.entity;
 
 import com.dexcoder.commons.bean.BeanConverter;
 import com.dexcoder.commons.exceptions.CommonsAssistantException;
-import com.fasterxml.jackson.annotation.JsonFilter;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +18,7 @@ import java.io.Serializable;
  * @date 2016-10-23
  */
 @MappedSuperclass
-@JsonFilter("objFilter")
+//@JsonFilter("objFilter")
 public abstract class PrimaryKey implements Serializable {
 
     protected Long id;

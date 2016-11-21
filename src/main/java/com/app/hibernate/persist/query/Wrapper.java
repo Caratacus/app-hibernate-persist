@@ -15,14 +15,14 @@
  */
 package com.app.hibernate.persist.query;
 
+import com.app.hibernate.persist.utils.MapUtils;
+import com.app.hibernate.persist.utils.StringUtils;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-
-import com.app.common.MapUtils;
-import com.app.hibernate.persist.utils.StringUtils;
 
 
 
@@ -57,14 +57,14 @@ public abstract class Wrapper<T> implements Serializable {
     }
 
     public String getSqlSelect() {
-        if (StringUtils.isEmpty(sqlSelect)) {
+        if (StringUtils.isBlank(sqlSelect)) {
             return null;
         }
         return stripSqlInjection(sqlSelect);
     }
 
     public Wrapper<T> setSqlSelect(String sqlSelect) {
-        if (StringUtils.isNotEmpty(sqlSelect)) {
+        if (StringUtils.isNotBlank(sqlSelect)) {
             this.sqlSelect = sqlSelect;
         }
         return this;
@@ -333,7 +333,7 @@ public abstract class Wrapper<T> implements Serializable {
      * @return this
      */
     public Wrapper<T> orderBy(String columns, boolean isAsc) {
-        if (StringUtils.isNotEmpty(columns)) {
+        if (StringUtils.isNotBlank(columns)) {
             sql.ORDER_BY(columns + (isAsc ? " ASC" : " DESC"));
         }
         return this;
@@ -591,7 +591,7 @@ public abstract class Wrapper<T> implements Serializable {
      * @return this
      */
     protected String formatSqlIfNeed(boolean need, String sqlStr, Object... params) {
-        if (!need || StringUtils.isEmpty(sqlStr)) {
+        if (!need || StringUtils.isBlank(sqlStr)) {
             return null;
         }
         return StringUtils.sqlArgsFill(sqlStr, params);

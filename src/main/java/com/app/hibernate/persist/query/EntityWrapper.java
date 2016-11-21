@@ -64,7 +64,7 @@ public class EntityWrapper<T> extends Wrapper<T> {
 		 * 无条件
 		 */
 		String sqlWhere = sql.toString();
-		if (StringUtils.isEmpty(sqlWhere)) {
+		if (StringUtils.isBlank(sqlWhere)) {
 			return null;
 		}
 

@@ -15,7 +15,6 @@
  */
 package com.app.hibernate.persist.utils;
 
-import com.app.common.Logis;
 import com.app.hibernate.persist.page.CountOptimize;
 import com.app.hibernate.persist.page.Page;
 import com.app.hibernate.persist.page.Pagination;
@@ -92,7 +91,7 @@ public class SqlUtils {
 	 * @return
 	 */
 	public static String concatOrderBy(String originalSql, Pagination page, boolean orderBy) {
-		if (orderBy && StringUtils.isNotEmpty(page.getOrderByField())) {
+		if (orderBy && StringUtils.isNotBlank(page.getOrderByField())) {
 			StringBuffer buildSql = new StringBuffer(originalSql);
 			buildSql.append(" ORDER BY ").append(page.getOrderByField());
 			buildSql.append(page.isAsc() ? " ASC " : " DESC ");
@@ -123,7 +122,7 @@ public class SqlUtils {
 			if (page != null) {
 				wrapper.orderBy(page.getOrderByField(), page.isAsc());
 			}
-			return String.format(SqlUtils.SQL_LIST, Logis.isBlank(sqlSelect) ? "*" : sqlSelect, tableName,
+			return String.format(SqlUtils.SQL_LIST, StringUtils.isBlank(sqlSelect) ? "*" : sqlSelect, tableName,
 					wrapper.getSqlSegment());
 		}
 		if (page != null) {
@@ -145,7 +144,7 @@ public class SqlUtils {
 	public static String getTableName(Class clazz) {
 		EntityInfo entityInfo = EntityInfoUtils.getEntityInfo(clazz);
 		String tableName = entityInfo.getTableName();
-		if (Logis.isBlank(tableName)) {
+		if (StringUtils.isBlank(tableName)) {
 			throw new AppHibernateException("tableName not found!");
 		}
 		return tableName;

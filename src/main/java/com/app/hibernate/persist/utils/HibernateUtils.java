@@ -1,12 +1,11 @@
 package com.app.hibernate.persist.utils;
 
-import com.app.common.Logis;
-import com.app.common.MapUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -31,7 +30,7 @@ public class HibernateUtils {
 	 * @return String
 	 */
 	public static String getListHql(Class clazz) {
-		return getListHql(clazz, Logis.EMPTY_MAP);
+		return getListHql(clazz, Collections.EMPTY_MAP);
 	}
 
 	/**
@@ -64,7 +63,7 @@ public class HibernateUtils {
 	 * @return String
 	 */
 	public static String getListHql(String order, Class clazz) {
-		return getListHql(order, clazz, Logis.EMPTY_MAP);
+		return getListHql(order, clazz, Collections.EMPTY_MAP);
 	}
 
 	/**
@@ -75,7 +74,7 @@ public class HibernateUtils {
 	 * @return String
 	 */
 	public static String getListHql(Class clazz, String... property) {
-		return getListHql(Logis.EMPTY_STRING, clazz, property);
+		return getListHql(StringUtils.EMPTY_STRING, clazz, property);
 	}
 
 	/**
@@ -86,7 +85,7 @@ public class HibernateUtils {
 	 * @return String
 	 */
 	public static String getListHql(Class clazz, Map<String, Object> params) {
-		return getListHql(Logis.EMPTY_STRING, clazz, params);
+		return getListHql(StringUtils.EMPTY_STRING, clazz, params);
 	}
 
 	/**
@@ -112,7 +111,7 @@ public class HibernateUtils {
 	 * @return
 	 */
 	private static void getWhere(StringBuilder builder, String... property) {
-		if (Logis.isNoneBlank(property)) {
+		if (StringUtils.isNoneBlank(property)) {
 			builder.append(" WHERE ");
 			for (int i = 0; i < property.length; i++) {
 				builder.append(property[i]);
@@ -148,7 +147,7 @@ public class HibernateUtils {
 	 * @return
 	 */
 	private static void getOrderby(String order, StringBuilder builder) {
-		if (Logis.isNotBlank(order)) {
+		if (StringUtils.isNotBlank(order)) {
 			builder.append(" ORDER BY ");
 			builder.append(order);
 		}
@@ -161,7 +160,7 @@ public class HibernateUtils {
 	 * @return String
 	 */
 	public static String getCountHql(Class clazz) {
-		return getCountHql(clazz, Logis.EMPTY_MAP);
+		return getCountHql(clazz, Collections.EMPTY_MAP);
 	}
 
 	/**

@@ -71,7 +71,7 @@ public class EntityInfoUtils {
 		/* 表名 */
 		Table table = clazz.getAnnotation(Table.class);
 		String tableName = clazz.getSimpleName();
-		if (table != null && StringUtils.isNotEmpty(table.name())) {
+		if (table != null && StringUtils.isNotBlank(table.name())) {
 			tableName = table.name();
 		}
 		entityInfo.setTableName(tableName);

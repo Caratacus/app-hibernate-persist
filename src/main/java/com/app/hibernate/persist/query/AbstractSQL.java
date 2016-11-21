@@ -15,7 +15,7 @@
  */
 package com.app.hibernate.persist.query;
 
-import com.app.common.Logis;
+import com.app.hibernate.persist.utils.StringUtils;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -201,7 +201,7 @@ public abstract class AbstractSQL<T> implements Serializable {
         private List<String> clearNull(List<String> parts) {
             List<String> temps = new ArrayList<String>();
             for (String part : parts) {
-                if (Logis.isBlank(part)) {
+                if (StringUtils.isBlank(part)) {
                     continue;
                 }
                 temps.add(part);

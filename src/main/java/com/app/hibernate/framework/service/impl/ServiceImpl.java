@@ -1,6 +1,5 @@
 package com.app.hibernate.framework.service.impl;
 
-import com.app.common.reflection.ReflectionUtils;
 import com.app.hibernate.framework.entity.PrimaryKey;
 import com.app.hibernate.framework.service.DaoService;
 import com.app.hibernate.framework.service.IService;
@@ -8,6 +7,7 @@ import com.app.hibernate.persist.dao.IDao;
 import com.app.hibernate.persist.page.BasePage;
 import com.app.hibernate.persist.page.Page;
 import com.app.hibernate.persist.query.Wrapper;
+import com.app.hibernate.persist.utils.ReflectionKit;
 import com.dexcoder.commons.bean.BeanConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,9 +25,9 @@ import java.util.Map;
  */
 public class ServiceImpl<T extends PrimaryKey, V extends PrimaryKey> implements IService<V> {
 	// 反射TO泛型
-	protected Class<T> tClass = ReflectionUtils.getSuperClassGenricType(getClass(), 0);
+	protected Class<T> tClass = ReflectionKit.getSuperClassGenricType(getClass(), 0);
 	// 反射VO泛型
-	protected Class<V> vClass = ReflectionUtils.getSuperClassGenricType(getClass(), 1);
+	protected Class<V> vClass = ReflectionKit.getSuperClassGenricType(getClass(), 1);
     @Autowired
     protected IDao<T> baseDao;
     @Autowired

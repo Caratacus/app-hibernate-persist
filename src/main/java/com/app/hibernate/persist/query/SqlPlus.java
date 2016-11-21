@@ -15,8 +15,8 @@
  */
 package com.app.hibernate.persist.query;
 
-import com.app.common.CollectionUtil;
-import com.app.common.Logis;
+import com.app.hibernate.persist.utils.CollectionUtil;
+import com.app.hibernate.persist.utils.Logis;
 import com.app.hibernate.persist.utils.StringUtils;
 
 import java.text.MessageFormat;
@@ -106,7 +106,7 @@ public class SqlPlus extends AbstractSQL<SqlPlus> {
 	 *            是否为NOT LIKE操作
 	 */
 	private void handerLike(String column, String value, boolean isNot) {
-		if (Logis.isNotBlank(column) && StringUtils.isNotEmpty(value)) {
+		if (StringUtils.isNotBlank(column) && StringUtils.isNotBlank(value)) {
 			StringBuilder inSql = new StringBuilder();
 			inSql.append(column);
 			if (isNot) {
@@ -192,7 +192,7 @@ public class SqlPlus extends AbstractSQL<SqlPlus> {
 	 *            是否为NOT EXISTS操作
 	 */
 	private void handerExists(String value, boolean isNot) {
-		if (StringUtils.isNotEmpty(value)) {
+		if (StringUtils.isNotBlank(value)) {
 			StringBuilder inSql = new StringBuilder();
 			if (isNot) {
 				inSql.append(" NOT");
@@ -224,7 +224,7 @@ public class SqlPlus extends AbstractSQL<SqlPlus> {
 	 *            是否为NOT IN操作
 	 */
 	private void handerIn(String column, Collection<?> value, boolean isNot) {
-		if (StringUtils.isNotEmpty(column) && CollectionUtil.isNotEmpty(value)) {
+		if (StringUtils.isNotBlank(column) && CollectionUtil.isNotEmpty(value)) {
 			StringBuilder inSql = new StringBuilder();
 			inSql.append(column);
 			if (isNot) {
@@ -247,7 +247,7 @@ public class SqlPlus extends AbstractSQL<SqlPlus> {
 	 *            是否为NOT IN操作
 	 */
 	private void handerIn(String column, String value, boolean isNot) {
-		if (StringUtils.isNotEmpty(column) && StringUtils.isNotEmpty(value)) {
+		if (StringUtils.isNotBlank(column) && StringUtils.isNotBlank(value)) {
 			StringBuilder inSql = new StringBuilder();
 			inSql.append(column);
 			if (isNot) {
@@ -280,7 +280,7 @@ public class SqlPlus extends AbstractSQL<SqlPlus> {
 	 * @param val2
 	 */
 	private void between(String column, String val1, String val2) {
-		if (StringUtils.isNotEmpty(column) && StringUtils.isNotEmpty(val1) && StringUtils.isNotEmpty(val2)) {
+		if (StringUtils.isNotBlank(column) && StringUtils.isNotBlank(val1) && StringUtils.isNotBlank(val2)) {
 			StringBuilder betweenSql = new StringBuilder();
 			betweenSql.append(column);
 			betweenSql.append(MessageFormat.format(SQL_BETWEEN_AND, StringUtils.quotaMark(val1), StringUtils.quotaMark(val2)));
@@ -297,10 +297,10 @@ public class SqlPlus extends AbstractSQL<SqlPlus> {
 	 *            SQL部分
 	 */
 	private void handerNull(String columns, String sqlPart) {
-		if (StringUtils.isNotEmpty(columns)) {
+		if (StringUtils.isNotBlank(columns)) {
 			String[] cols = columns.split(",");
 			for (String col : cols) {
-				if (StringUtils.isNotEmpty(col.trim())) {
+				if (StringUtils.isNotBlank(col.trim())) {
 					WHERE(col + sqlPart);
 				}
 			}

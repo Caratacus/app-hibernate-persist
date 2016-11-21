@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
  * <p>
  * String 工具类
@@ -45,15 +46,12 @@ public class StringUtils {
 	public static final String PLACE_HOLDER = "{%s}";
 
 	/**
-	 * <p>
-	 * 判断字符串是否为空
-	 * </p>
+	 * 判断字符串是否为空(不排除字符串为'null'的情况)
 	 *
 	 * @param cs
-	 *            需要判断字符串
-	 * @return 判断结果
+	 * @return boolean
 	 */
-	public static boolean isEmpty(final CharSequence cs) {
+	public static boolean isBlank(final CharSequence cs) {
 		int strLen;
 		if (cs == null || (strLen = cs.length()) == 0) {
 			return true;
@@ -67,16 +65,41 @@ public class StringUtils {
 	}
 
 	/**
-	 * <p>
-	 * 判断字符串是否不为空
-	 * </p>
+	 * 判断字符串是否为空
+	 *
+	 * @param css
+	 * @return boolean
+	 */
+	public static boolean isNoneBlank(final CharSequence... css) {
+		return !isAnyBlank(css);
+	}
+
+	/**
+	 * 判断字符串是否为空
+	 *
+	 * @param css
+	 * @return boolean
+	 */
+	public static boolean isAnyBlank(final CharSequence... css) {
+		if (ArrayUtils.isEmpty(css)) {
+			return true;
+		}
+		for (final CharSequence cs : css){
+			if (isBlank(cs)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 判断字符串是否为空
 	 *
 	 * @param cs
-	 *            需要判断字符串
-	 * @return 判断结果
+	 * @return boolean
 	 */
-	public static boolean isNotEmpty(final CharSequence cs) {
-		return !isEmpty(cs);
+	public static boolean isNotBlank(final CharSequence cs) {
+		return !isBlank(cs);
 	}
 
 	/**
@@ -89,7 +112,7 @@ public class StringUtils {
 	 * @return 转换好的字符串
 	 */
 	public static String camelToUnderline(String param) {
-		if (isEmpty(param)) {
+		if (isBlank(param)) {
 			return EMPTY_STRING;
 		}
 		int len = param.length();
@@ -114,7 +137,7 @@ public class StringUtils {
 	 * @return 转换好的字符串
 	 */
 	public static String underlineToCamel(String param) {
-		if (isEmpty(param)) {
+		if (isBlank(param)) {
 			return EMPTY_STRING;
 		}
 		int len = param.length();
@@ -260,7 +283,7 @@ public class StringUtils {
 	 * @return
 	 */
 	public static String concatCapitalize(String concatStr, final String str) {
-		if (isEmpty(concatStr)) {
+		if (isBlank(concatStr)) {
 			concatStr = EMPTY_STRING;
 		}
 		int strLen;
@@ -300,7 +323,7 @@ public class StringUtils {
 	 */
 	public static boolean checkValNotNull(Object object) {
 		if (object instanceof CharSequence) {
-			return isNotEmpty((CharSequence) object);
+			return isNotBlank((CharSequence) object);
 		}
 		return object == null ? false : true;
 	}
@@ -314,6 +337,26 @@ public class StringUtils {
 	 */
 	public static boolean checkValNull(Object object) {
 		return !checkValNotNull(object);
+	}
+
+	/**
+	 * 获取对象字符串
+	 *
+	 * @param obj
+	 * @return String
+	 */
+	public static String toString(Object obj) {
+		return StringUtils.toString(obj, StringUtils.EMPTY_STRING);
+	}
+
+	/**
+	 * 获取对象字符串
+	 *
+	 * @param obj
+	 * @return String
+	 */
+	public static String toString(Object obj, String defaults) {
+		return obj == null ? defaults : ((StringUtils.EMPTY_STRING.equals(obj.toString().trim())) ? defaults : obj.toString().trim());
 	}
 
 }

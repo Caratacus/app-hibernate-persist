@@ -168,7 +168,7 @@ public class Pagination implements Serializable {
 	}
 
 	public void setOrderByField(String orderByField) {
-		if (StringUtils.isNotEmpty(orderByField)) {
+		if (StringUtils.isNotBlank(orderByField)) {
 			this.orderByField = orderByField;
 		}
 	}
