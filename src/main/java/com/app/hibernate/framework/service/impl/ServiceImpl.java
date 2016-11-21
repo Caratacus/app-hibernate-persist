@@ -3,12 +3,12 @@ package com.app.hibernate.framework.service.impl;
 import com.app.hibernate.framework.entity.PrimaryKey;
 import com.app.hibernate.framework.service.DaoService;
 import com.app.hibernate.framework.service.IService;
+import com.app.hibernate.persist.converter.BeanConverter;
 import com.app.hibernate.persist.dao.IDao;
 import com.app.hibernate.persist.page.BasePage;
 import com.app.hibernate.persist.page.Page;
 import com.app.hibernate.persist.query.Wrapper;
 import com.app.hibernate.persist.utils.ReflectionKit;
-import com.dexcoder.commons.bean.BeanConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -35,37 +35,37 @@ public class ServiceImpl<T extends PrimaryKey, V extends PrimaryKey> implements 
 
 	@Override
 	public V save(V vo) {
-		return baseDao.save(vo.getTargetObject(tClass)).getTargetObject(vClass);
+		return baseDao.save(vo.convert(tClass)).convert(vClass);
 	}
 
 	@Override
 	public void delete(V vo) {
-		baseDao.delete(vo.getTargetObject(tClass));
+		baseDao.delete(vo.convert(tClass));
 	}
 
 	@Override
 	public void update(V vo) {
-		baseDao.update(vo.getTargetObject(tClass));
+		baseDao.update(vo.convert(tClass));
 	}
 
 	@Override
 	public void saveOrUpdate(V vo) {
-		baseDao.saveOrUpdate(vo.getTargetObject(tClass));
+		baseDao.saveOrUpdate(vo.convert(tClass));
 	}
 
 	@Override
 	public V get(Serializable id) {
-		return baseDao.get(tClass, id) == null ? null : baseDao.get(tClass, id).getTargetObject(vClass);
+		return baseDao.get(tClass, id) == null ? null : baseDao.get(tClass, id).convert(vClass);
 	}
 
 	@Override
 	public V get(String hql) {
-		return baseDao.get(hql) == null ? null : baseDao.get(hql).getTargetObject(vClass);
+		return baseDao.get(hql) == null ? null : baseDao.get(hql).convert(vClass);
 	}
 
 	@Override
 	public V get(String hql, Map<String, Object> params) {
-		return baseDao.get(hql, params) == null ? null : baseDao.get(hql, params).getTargetObject(vClass);
+		return baseDao.get(hql, params) == null ? null : baseDao.get(hql, params).convert(vClass);
 	}
 
 	@Override
