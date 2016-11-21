@@ -107,7 +107,7 @@ public class ReflectionKit {
 		for (Field field : entityInfo.getFields()) {
 			String fieldName = field.getName();
 			Object val = getMethodValue(cls, bean, fieldName);
-			if (null != val && !val.equals("")) {
+			if (StringUtils.checkValNotNull(val)) {
 				result = true;
 				break;
 			}

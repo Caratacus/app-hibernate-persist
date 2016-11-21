@@ -151,8 +151,4 @@ public class SqlUtils {
 		return tableName;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(String.format(SqlUtils.SQL_LIST, "1", "2", "3"));
-
-	}
 }

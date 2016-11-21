@@ -15,14 +15,14 @@
  */
 package com.app.hibernate.persist.query;
 
-import com.app.common.MapUtils;
-import com.app.hibernate.persist.utils.StringUtils;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+
+import com.app.common.MapUtils;
+import com.app.hibernate.persist.utils.StringUtils;
 
 
 
@@ -127,8 +127,12 @@ public abstract class Wrapper<T> implements Serializable {
         if (MapUtils.isNotEmpty(params)) {
             Iterator iterator = params.entrySet().iterator();
             while (iterator.hasNext()) {
-                Map.Entry entry = (Map.Entry) iterator.next();
-                sql.WHERE(formatSql(String.format("%s = {0}", entry.getKey()), entry.getValue()));
+                Map.Entry<String,Object> entry = (Map.Entry<String,Object>) iterator.next();
+                Object value = entry.getValue();
+                if(StringUtils.checkValNotNull(value)){
+                    sql.WHERE(formatSql(String.format("%s = {0}", entry.getKey()), entry.getValue()));
+                }
+
             }
 
         }
