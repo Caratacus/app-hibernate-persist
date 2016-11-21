@@ -325,7 +325,7 @@ public class HibernateUtils {
 	 * @return Query
 	 */
 	public static Query getSqlQuery(String sql, SessionFactory factory) {
-		System.err.println("Execute SQL：\n" + SqlUtils.sqlFormat(sql, true));
+		System.err.println("Execute SQL：" + SqlUtils.sqlFormat(sql, true));
 		return getCurrentSession(factory).createSQLQuery(sql);
 	}
 
@@ -337,7 +337,7 @@ public class HibernateUtils {
 	 * @return Query
 	 */
 	public static Query getHqlQuery(String hql, SessionFactory factory) {
-		System.err.println("Execute HQL：\n" + SqlUtils.sqlFormat(hql, true));
+		System.err.println("Execute HQL：" + SqlUtils.sqlFormat(hql, true));
 		return getCurrentSession(factory).createQuery(hql);
 	}
 
